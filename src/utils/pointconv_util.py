@@ -375,7 +375,7 @@ class PointConvDensitySetAbstraction(nn.Module):
         if points is not None:
             points = points.permute(0, 2, 1)
 
-        self.npoint
+        self.npoint = N
 
         xyz_density = compute_density(xyz, self.bandwidth)
         inverse_density = 1.0 / xyz_density

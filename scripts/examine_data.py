@@ -1,19 +1,7 @@
-import torch
+import numpy as np
+import open3d as o3d
 
-# Load the .pth file
-data = torch.load(
-    "/mnt/g/Projects/RICS/PostProcess/data/features/09c1414f1b_feat.pth", map_location="cpu")
+file = "/mnt/g/Projects/RICS/PostProcess/data/pointclouds/13c3e046d7/mesh_aligned_0.05_semantic.ply"
 
-# Check type
-print(type(data))
-
-# If it's a dict, check keys
-if isinstance(data, dict):
-    print(data.keys())
-
-# Inspect the content
-# For example, if it's a tensor
-if isinstance(data, torch.Tensor):
-    print(data.shape)
-    print(data.dtype)
-    print(data[:5])  # first few entries
+pcd = o3d.t.io.read_point_cloud(file)
+print(pcd.point)  # lists all available attributes
