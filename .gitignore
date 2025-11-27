@@ -1,2 +1,4 @@
 data/*
 src/pointconv_pytorch
+external/*
+runs/*

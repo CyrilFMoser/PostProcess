@@ -1,10 +1,13 @@
 from torch.utils.data import Dataset, DataLoader
 import torch.cuda
-from data.dataloader import SceneSplatDataset
-from model.pointconv import PointConvDensityClsSsg
+from data.dataloader.scannetppv2_dataloader import ScanNetPPV2DataSet
 from tqdm import tqdm
 import warnings
 from torchinfo import summary
+import torch.nn as nn
+from torch.utils.tensorboard import SummaryWriter
+
+from external.PointTransformerV3.model import PointTransformerV3
 
 N_EPOCHS = 10
 
@@ -14,34 +17,28 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
-    scene_names = ["13c3e046d7"]
-    scene_root = "/mnt/g/Projects/RICS/PostProcess/data/scenes"
-    feature_root = "/mnt/g/Projects/RICS/PostProcess/data/features"
-    text_embeddings_root = "/mnt/g/Projects/RICS/PostProcess/data/text_embeddings"
+    scene_names = ["13c3e046d7_mini"]
+    scene_root = "data/scenesplat/scannetppv2/scenes/train"
+    feature_root = "data/scenesplat/scannetppv2/features/train"
+    metadata_root = "data/scannetppv2/metadata"
+    label_root = "data/scannetppv2/gaussianlabels"
 
-    dataset = SceneSplatDataset(
-        scene_names, scene_root, feature_root, text_embeddings_root, device)
-    dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
+    dataset = ScanNetPPV2DataSet(
+        scene_names, scene_root, feature_root, metadata_root,label_root, device)
+    dataloader = DataLoader(dataset, batch_size=1,
+                            shuffle=True, collate_fn=dataset.collate_fn)
 
-    model = PointConvDensityClsSsg(feature_dim=dataset.feature_dim)
+    k = dataset.num_classes 
 
-    N = 1670470
-    M = 6589
-    x_dict = {
-        "coord": torch.rand(1, 3, N),
-        "feature": torch.rand(1, 768, N),
-        "voxel_feature": torch.rand(1, 768, M),
-        "voxel_coord": torch.rand(1, 3, M),
-        "voxel_to_gauss": []
-    }
+    model = build_model(k)    
 
-    summary(model, input_data=(x_dict,))  # 1670470
+    # summary(model, input_data=(x_dict,))  # 1670470
     model.to(device)
 
-    train(dataloader, model)
+    train(dataloader, model,k)
 
 
-def train(dataloader: DataLoader, model: PointConvDensityClsSsg):
+def train(dataloader: DataLoader, model,k):
     optimizer = torch.optim.Adam(
         model.parameters(),
         lr=0.01,
@@ -51,40 +48,58 @@ def train(dataloader: DataLoader, model: PointConvDensityClsSsg):
     scheduler = torch.optim.lr_scheduler.StepLR(
         optimizer, step_size=30, gamma=0.7)
 
-    ignore_index = dataloader.dataset.ignore_index
+    loss = nn.CrossEntropyLoss()
 
     model.train()
-    print("Start training")
+    num_params = sum(p.numel()
+                     for p in model.parameters() if p.requires_grad)
+    writer = SummaryWriter()
 
+
+    print(f"Start training with {num_params} number of parameters")
     for epoch in range(N_EPOCHS):
-        print(f"Epoch: {epoch}")
-        for batch_id, data in tqdm(enumerate(dataloader), total=len(dataloader), smoothing=0.9):
+        pbar = tqdm(enumerate(dataloader), total=len(dataloader), smoothing=0.9)
+        epoch_loss = 0.0
+        for batch_id, data in pbar:
             optimizer.zero_grad()
-
             new_feat = model(data)
 
-            B, F, N = new_feat.shape
-            mask_valid = data["valid_mask"]        # [N]
+            valid_mask = data["valid_mask"]
+            labels = data["label"]
 
-            valid_feat_list = []
-            for b in range(B):
-                # select valid entries for this batch
-                mask_no_ignore = data["segment_raw"][b,
-                                                     :, 0] != ignore_index  # [N]
-                mask = mask_valid & mask_no_ignore     # combine masks [N]
-                mask = mask.squeeze(0)
-                valid_feat_b = new_feat[b].view(N, F)[mask]   # [num_valid, F]
-                valid_feat_list.append(valid_feat_b)
+            valid_new_feat = new_feat.feat[valid_mask]
+            valid_labels = labels[valid_mask]
 
-            # pad or stack as needed
-            # shape depends on validity pattern
-            valid_feat = torch.stack(valid_feat_list)
-            valid_feat = valid_feat.permute(0, 2, 1)
-            gt_feat = data["gaussian_text_embedding"]
-            print(valid_feat.shape)
-            print(gt_feat.shape)
-            exit()
+            output = loss(valid_new_feat,valid_labels)
+
+            output.backward()
+            optimizer.step()
+
+            epoch_loss += output.item()
+
+            # Show running average loss in tqdm
+            pbar.set_description(f"Epoch {epoch} | Loss {epoch_loss / (batch_id+1):.4f}")
+            writer.add_scalar("train/loss", output.item(), epoch * len(dataloader) + batch_id)
+
+
         scheduler.step()
+
+def build_model(k:int):
+    
+
+    model = PointTransformerV3(
+        in_channels=k,
+        stride=             (2, 2),
+        enc_depths=         (2, 2, 2),
+        enc_channels=       (100, 200, 400),
+        enc_num_head=       (2, 4, 8),
+        enc_patch_size=     (1024, 1024, 1024),
+        dec_depths=         (2, 2),
+        dec_channels=       (100, 200),
+        dec_num_head=       (4, 8),
+        dec_patch_size=     (1024, 1024),
+        enable_flash=False)
+    return model
 
 
 if __name__ == '__main__':
