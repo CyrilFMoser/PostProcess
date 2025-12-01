@@ -8,8 +8,6 @@ from torch_cluster import grid_cluster
 from torch_scatter import scatter_mean
 import torch.nn.functional as F
 from torch.utils.data._utils.collate import default_collate
-from collections.abc import Mapping, Sequence
-import random
 import pandas as pd
 
 from data.collate.collate import point_collate_fn
@@ -20,7 +18,7 @@ class ScanNetPPV2DataSet(Dataset):
     Dataset that loads the per gaussian labels derived from the point cloud labels provided in the Scannetppv2 dataset
     """
 
-    def __init__(self, scene_names, scene_root, feature_root, metadata_root,label_root,device="cpu"):
+    def __init__(self, scene_names, scene_root, feature_root, metadata_root,label_root,device="cpu",mode="train"):
         """
         scene_names: list of scene identifiers (str)
         scene_root: root folder where all files defining the 3D gaussian splats are stored
@@ -29,10 +27,10 @@ class ScanNetPPV2DataSet(Dataset):
 
         """
         self.scene_names = scene_names
-        self.scene_root = scene_root
-        self.feature_root = feature_root
+        self.scene_root = os.path.join(scene_root,mode)
+        self.feature_root = os.path.join(feature_root,mode)
         self.metadata_root = metadata_root
-        self.label_root = label_root
+        self.label_root = os.path.join(label_root,mode)
 
         self.text_embeddings_file = os.path.join(metadata_root,"text_embeddings.pth")
         self.device = device

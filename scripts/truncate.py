@@ -4,18 +4,20 @@ import os
 
 # Truncate an already *preprocessed* scene to a smaller, more manageable size for testing
 
-scene_name = "13c3e046d7"
+mode = "train"
+
+scene_name = "09c1414f1b"
 new_name = f"{scene_name}_mini"
 
-scene_path = "data/scenesplat/scannetppv2/scenes/train"
+scene_path = os.path.join("data/scenesplat/scannetppv2/scenes",mode)
 scene_dir = os.path.join(scene_path, scene_name)
 new_scene_dir = os.path.join(scene_path, new_name)
 
-feat_root = "data/scenesplat/scannetppv2/features/train"
+feat_root = os.path.join("data/scenesplat/scannetppv2/features",mode)
 feat_dir = os.path.join(feat_root,scene_name)
 new_feat_dir = os.path.join(feat_root,new_name)
 
-label_root = "data/scannetppv2/gaussianlabels"
+label_root = os.path.join("data/scannetppv2/gaussianlabels",mode)
 label_dir = os.path.join(label_root,scene_name)
 new_label_dir = os.path.join(label_root,new_name)
 

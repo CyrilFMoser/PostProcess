@@ -11,7 +11,7 @@ import pandas as pd
 # where the preprocessed gaussians splat scenes from scene_splat are stored
 gs_root = "data/scenesplat/scannetppv2/scenes/train"
 # where to store the per gaussian labels
-label_root = "data/scannetppv2/gaussianlabels"
+label_root = "data/scannetppv2/gaussianlabels/train"
 # where metadata is stored
 metadata_root = "data/scannetppv2/metadata"
 
