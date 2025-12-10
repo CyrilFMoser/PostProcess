@@ -1,19 +1,26 @@
 import os
-import open3d as o3d
 import shutil
 
 import numpy as np
 import torch
 from scipy.spatial import cKDTree
-import time
 import pandas as pd
 
-# where the preprocessed gaussians splat scenes from scene_splat are stored
-gs_root = "data/scenesplat/scannetppv2/scenes/train"
+mode = "validation" # train or validation
+
 # where to store the per gaussian labels
-label_root = "data/scannetppv2/gaussianlabels/train"
+label_root = os.path.join("/cluster/home/cymoser/cymoser/scenesplat/gaussianlabels",mode)
+if mode == "train":
+    mode_string = "train_grid1.0cm_chunk6x6_stride3x3"
+elif mode == "validation":
+    mode_string = "val"
+# where the preprocessed gaussians splat scenes from scene_splat are stored
+gs_root = os.path.join("/cluster/home/cymoser/data/GaussianWorld/scannetpp_v2_mcmc_3dgs_preprocessed",mode_string)
+
 # where metadata is stored
-metadata_root = "data/scannetppv2/metadata"
+metadata_root = "/cluster/home/cymoser/projects/SceneSplat/pointcept/datasets/preprocessing/scannetpp/metadata"
+
+filtered_scene_file = f"/cluster/home/cymoser/projects/PostProcess/data/scannetppv2/filtered_scenes/{mode}.txt"
 
 def main():
 
@@ -26,11 +33,16 @@ def main():
         shutil.rmtree(label_root)
         os.mkdir(label_root)
 
+    with open(filtered_scene_file, "r") as f:
+        filtered_scene =[line.strip() for line in f]
+
     for scene_name in os.listdir(gs_root):
         if not redo_everything and scene_name in os.listdir(label_root):
             continue  # we already processed this
-        embed_folder = os.path.join(label_root, scene_name)
-        os.mkdir(embed_folder)
+        if scene_name in filtered_scene: # don't preprocess this
+            continue
+        label_folder = os.path.join(label_root, scene_name)
+        os.makedirs(label_folder)
 
         # load the data for this scene
         gs_folder = os.path.join(gs_root, scene_name)
@@ -51,7 +63,7 @@ def main():
         _, indices = tree.query(gs_coords)
 
         gs_labels = pc_labels[indices]
-        label_file = os.path.join(embed_folder, "label")
+        label_file = os.path.join(label_folder, "label")
         np.save(label_file, gs_labels)
 
 def remap_labels(labels):
@@ -59,9 +71,9 @@ def remap_labels(labels):
     # -------------------------
     # Load data
     # -------------------------
-    map_file = os.path.join(metadata_root,"map_benchmark.csv")
+    map_file = os.path.join(metadata_root,"semantic_benchmark","map_benchmark.csv")
     classes_file = os.path.join(metadata_root,"semantic_classes.txt")
-    top100_classes_file = os.path.join(metadata_root,"top100.txt")
+    top100_classes_file = os.path.join(metadata_root,"semantic_benchmark","top100.txt")
 
     ignore_index = -1
 
