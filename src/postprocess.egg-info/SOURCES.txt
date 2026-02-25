@@ -5,5 +5,5 @@ src/postprocess.egg-info/dependency_links.txt
 src/postprocess.egg-info/top_level.txt
 src/utils/__init__.py
 src/utils/ioumetric.py
-src/utils/neigbor_voting.py
+src/utils/neighbor_voting.py
 src/utils/train.py

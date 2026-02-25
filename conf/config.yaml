@@ -1,0 +1,23 @@
+defaults:
+  - model: medium_skip
+  - training: default
+  - paths: default
+  - optimizer: adamw
+  - scheduler: cosine
+  - loss: ce
+  - _self_
+
+# Global params shared between model and dataset
+class_subset: 52
+num_classes: 100
+
+# Optional tag appended to the model name (useful for naming checkpoint runs)
+# e.g. run_tag: lowlr  →  medium_skip_52_classes_lowlr
+run_tag: ""
+
+hydra:
+  job:
+    chdir: false
+  output_subdir: null
+  run:
+    dir: .

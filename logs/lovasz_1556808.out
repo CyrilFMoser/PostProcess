@@ -1,0 +1,2387 @@
+0: --master-addr=nid007490 --master-port=29500 --node-rank=0 --nnodes=4 --nproc-per-node=4
+2: --master-addr=nid007490 --master-port=29500 --node-rank=2 --nnodes=4 --nproc-per-node=4
+3: --master-addr=nid007490 --master-port=29500 --node-rank=3 --nnodes=4 --nproc-per-node=4
+1: --master-addr=nid007490 --master-port=29500 --node-rank=1 --nnodes=4 --nproc-per-node=4
+0: Set local_rank: 0 to device
+0: Using device: cuda:0
+3: Set local_rank: 0 to device
+3: Using device: cuda:0
+3: 
+0: Set local_rank: 2 to device
+0: 
+0: Using device: cuda:2
+0: 
+0: Set local_rank: 1 to device
+0: 
+0: Using device: cuda:1
+0: Set local_rank: 3 to device
+0: Using device: cuda:3
+2: Set local_rank: 0 to device
+2: Using device: cuda:0
+1: Set local_rank: 0 to device
+1: Using device: cuda:0
+3: Set local_rank: 3 to device
+3: Using device: cuda:3
+3: Set local_rank: 1 to device
+3: 
+3: Using device: cuda:1
+3: Set local_rank: 2 to device
+3: 
+3: Using device: cuda:2
+2: Set local_rank: 3 to device
+2: 
+2: Using device: cuda:3
+2: Set local_rank: 1 to device
+2: 
+2: Using device: cuda:1
+2: Set local_rank: 2 to device
+2: 
+2: Using device: cuda:2
+1: Set local_rank: 2 to device
+1: 
+1: Using device: cuda:2
+1: Set local_rank: 1 to device
+1: 
+1: Using device: cuda:1
+1: Set local_rank: 3 to device
+1: 
+1: Using device: cuda:3
+0: Loaded model with 86422376 number of parameters
+0: Loaded model with 86422376 number of parameters
+0: 
+0: Loaded model with 86422376 number of parameters
+0: 
+0: Loaded model with 86422376 number of parameters
+0: 
+1: Loaded model with 86422376 number of parameters
+1: Loaded model with 86422376 number of parameters
+1: 
+1: Loaded model with 86422376 number of parameters
+0: Start training with 86422376 number of parameters
+1: 
+0: Start training with 86422376 number of parameters
+0: 
+0: Start training with 86422376 number of parameters
+0: 
+1: Loaded model with 86422376 number of parameters
+1: 
+1: Start training with 86422376 number of parameters
+1: Start training with 86422376 number of parameters
+1: Start training with 86422376 number of parameters
+1: Start training with 86422376 number of parameters
+2: Loaded model with 86422376 number of parameters
+2: Loaded model with 86422376 number of parameters
+2: Loaded model with 86422376 number of parameters
+2: 
+2: Loaded model with 86422376 number of parameters
+2: 
+2: Start training with 86422376 number of parameters
+2: Start training with 86422376 number of parametersStart training with 86422376 number of parameters
+2: 
+2: 
+2: Start training with 86422376 number of parameters
+3: Loaded model with 86422376 number of parametersLoaded model with 86422376 number of parameters
+3: 
+3: Loaded model with 86422376 number of parameters
+3: Loaded model with 86422376 number of parameters
+3: 
+3: Start training with 86422376 number of parameters
+3: Start training with 86422376 number of parameters
+3: 
+3: Start training with 86422376 number of parameters
+3: 
+3: Start training with 86422376 number of parameters
+3: 
+0: Start training with 86422376 number of parameters
+0: 
+2: Rank 10 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+3: Rank 13 had empty mask
+1: Rank 7 had empty mask
+0: Rank 2 had empty mask
+3: Rank 13 had empty mask
+2: Rank 10 had empty mask
+3: Rank 15 had empty mask
+3: Rank 13 had empty mask
+0: Rank 3 had empty mask
+1: Rank 4 had empty mask
+2: Rank 9 had empty mask
+3: Rank 15 had empty mask
+2: Rank 11 had empty mask
+1: Rank 7 had empty mask
+0: Rank 3 had empty mask
+1: Rank 7 had empty mask
+3: Rank 15 had empty mask
+3: Rank 13 had empty mask
+3: Rank 15 had empty mask
+1: Rank 4 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 5 had empty mask
+0: Rank 1 had empty mask
+3: Rank 14 had empty mask
+0: Rank 1 had empty mask
+0: 
+1: Rank 6 had empty mask
+2: Rank 9 had empty mask
+3: Rank 12 had empty mask
+3: Rank 14 had empty mask
+2: Rank 9 had empty mask
+1: Rank 4 had empty mask
+3: Rank 14 had empty mask
+0: Rank 3 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 9 had empty mask
+2: Rank 8 had empty mask
+2: Rank 8 had empty mask
+3: Rank 12 had empty mask
+2: Rank 10 had empty mask
+1: Rank 6 had empty mask
+3: Rank 14 had empty mask
+3: Rank 15 had empty mask
+2: Rank 10 had empty mask
+0: Rank 2 had empty mask
+2: Rank 10 had empty mask
+1: Rank 5 had empty mask
+2: Rank 8 had empty mask
+3: Rank 13 had empty mask
+0: Rank 1 had empty mask
+0: 
+3: Rank 13 had empty mask
+1: Rank 5 had empty mask
+2: Rank 11 had empty mask
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+0: Rank 2 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 13 had empty mask
+1: Rank 4 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 10 had empty mask
+3: Rank 15 had empty mask
+1: Rank 6 had empty mask
+0: Rank 2 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+1: Rank 6 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 11 had empty mask
+1: Rank 6 had empty mask
+0: Rank 2 had empty mask
+1: Rank 7 had empty mask
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+3: Rank 15 had empty mask
+2: Rank 10 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+0: Rank 3 had empty mask
+1: Rank 6 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+0: Rank 1 had empty mask
+0: 
+0: Rank 2 had empty mask
+1: Rank 7 had empty mask
+1: Rank 5 had empty mask
+2: Rank 11 had empty mask
+3: Rank 14 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+3: Rank 13 had empty mask
+2: Rank 10 had empty mask
+2: 
+2: Rank 10 had empty mask
+3: Rank 13 had empty mask
+0: Rank 2 had empty mask
+1: Rank 5 had empty mask
+0: Rank 2 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+2: Rank 11 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 12 had empty mask
+1: Rank 7 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 13 had empty mask
+1: Rank 6 had empty mask
+3: Rank 15 had empty mask
+3: Rank 15 had empty mask
+0: Rank 1 had empty mask
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+0: Rank 1 had empty mask
+2: Rank 10 had empty mask
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+3: Rank 15 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 14 had empty mask
+3: Rank 12 had empty mask
+3: Rank 13 had empty mask
+3: Rank 13 had empty mask
+2: Rank 11 had empty mask
+1: Rank 7 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 2 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 4 had empty mask
+1: Rank 7 had empty mask
+0: Rank 2 had empty mask
+0: Rank 1 had empty mask
+0: 
+2: Rank 9 had empty mask
+2: Rank 9 had empty mask
+2: Rank 8 had empty mask
+2: Rank 11 had empty mask
+1: Rank 6 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+0: Rank 2 had empty mask
+0: 
+2: Rank 11 had empty mask
+2: Rank 8 had empty mask
+0: Rank 1 had empty mask
+2: Rank 9 had empty mask
+1: Rank 6 had empty mask
+2: Rank 10 had empty mask
+3: Rank 15 had empty mask
+2: Rank 11 had empty mask
+3: Rank 12 had empty mask
+0: Rank 3 had empty mask
+2: Rank 9 had empty mask
+3: Rank 15 had empty mask
+0: Rank 2 had empty mask
+2: Rank 10 had empty mask
+1: Rank 7 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+2: Rank 11 had empty mask
+3: Rank 12 had empty mask
+3: Rank 12 had empty mask
+3: Rank 15 had empty mask
+3: Rank 12 had empty mask
+1: Rank 6 had empty mask
+3: Rank 14 had empty mask
+0: Rank 3 had empty mask
+1: Rank 6 had empty mask
+2: Rank 11 had empty mask
+2: Rank 9 had empty mask
+3: Rank 14 had empty mask
+3: Rank 13 had empty mask
+2: Rank 8 had empty mask
+0: Rank 3 had empty mask
+2: Rank 9 had empty mask
+0: Rank 1 had empty mask
+2: Rank 11 had empty mask
+2: Rank 11 had empty mask
+2: Rank 8 had empty mask
+2: Rank 11 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 6 had empty mask
+0: Rank 1 had empty mask
+1: Rank 4 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 14 had empty mask
+1: Rank 6 had empty mask
+2: Rank 10 had empty mask
+0: Rank 3 had empty mask
+0: Rank 2 had empty mask
+1: Rank 7 had empty mask
+3: Rank 15 had empty mask
+1: Rank 6 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+2: Rank 9 had empty mask
+2: 
+1: Rank 5 had empty mask
+2: Rank 9 had empty mask
+3: Rank 14 had empty mask
+1: Rank 4 had empty mask
+3: Rank 13 had empty mask
+3: Rank 15 had empty mask
+0: Rank 1 had empty mask
+0: Rank 2 had empty mask
+1: Rank 7 had empty mask
+1: Rank 4 had empty mask
+3: Rank 14 had empty mask
+3: Rank 14 had empty mask
+1: Rank 4 had empty mask
+2: Rank 10 had empty mask
+3: Rank 15 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 6 had empty mask
+2: Rank 10 had empty mask
+2: Rank 9 had empty mask
+2: Rank 8 had empty mask
+1: Rank 5 had empty mask
+0: Rank 3 had empty mask
+2: Rank 10 had empty mask
+0: Rank 2 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 14 had empty mask
+3: Rank 13 had empty mask
+2: Rank 11 had empty mask
+2: Rank 9 had empty mask
+2: Rank 9 had empty mask
+0: Rank 1 had empty mask
+3: Rank 12 had empty mask
+3: Rank 14 had empty mask
+1: Rank 5 had empty mask
+0: Rank 2 had empty mask
+3: Rank 15 had empty mask
+2: Rank 11 had empty mask
+3: Rank 14 had empty mask
+0: Rank 2 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 2 had empty mask
+3: Rank 14 had empty mask
+3: Rank 14 had empty mask
+3: Rank 13 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+3: Rank 14 had empty mask
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 2 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 11 had empty mask
+2: Rank 8 had empty mask
+3: Rank 15 had empty mask
+1: Rank 6 had empty mask
+3: Rank 12 had empty mask
+2: Rank 10 had empty mask
+2: Rank 11 had empty mask
+0: Rank 1 had empty mask
+3: Rank 14 had empty mask
+1: Rank 7 had empty mask
+1: Rank 5 had empty mask
+0: Rank 3 had empty mask
+0: 
+0: Rank 2 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+1: Rank 4 had empty mask
+1: Rank 6 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 4 had empty mask
+2: Rank 11 had empty mask
+3: Rank 12 had empty mask
+1: Rank 6 had empty mask
+2: Rank 11 had empty mask
+3: Rank 13 had empty mask
+0: Rank 3 had empty mask
+2: Rank 9 had empty mask
+1: Rank 6 had empty mask
+2: Rank 8 had empty mask
+2: Rank 11 had empty mask
+1: Rank 4 had empty mask
+1: Rank 7 had empty mask
+0: Rank 2 had empty mask
+3: Rank 13 had empty mask
+1: Rank 4 had empty mask
+0: Rank 2 had empty mask
+2: Rank 8 had empty mask
+3: Rank 15 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 7 had empty mask
+0: Rank 2 had empty mask
+2: Rank 10 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+0: Rank 2 had empty mask
+3: Rank 14 had empty mask
+2: Rank 8 had empty mask
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+2: Rank 9 had empty mask
+3: Rank 14 had empty mask
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+1: Rank 5 had empty mask
+0: Rank 2 had empty mask
+0: 
+0: Rank 2 had empty mask
+1: Rank 5 had empty mask
+1: Rank 5 had empty mask
+1: Rank 7 had empty mask
+1: Rank 7 had empty mask
+0: Rank 2 had empty mask
+1: Rank 4 had empty mask
+1: Rank 6 had empty mask
+1: Rank 7 had empty mask
+2: Rank 9 had empty mask
+2: Rank 10 had empty mask
+3: Rank 15 had empty mask
+1: Rank 7 had empty mask
+1: Rank 6 had empty mask
+3: Rank 15 had empty mask
+3: Rank 14 had empty mask
+1: Rank 7 had empty mask
+1: Rank 6 had empty mask
+2: Rank 9 had empty mask
+3: Rank 15 had empty mask
+0: Rank 2 had empty mask
+2: Rank 11 had empty mask
+2: Rank 10 had empty mask
+2: 
+0: Rank 3 had empty mask
+0: 
+0: Rank 3 had empty mask
+0: 
+3: Rank 14 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+1: Rank 6 had empty mask
+2: Rank 10 had empty mask
+3: Rank 15 had empty mask
+2: Rank 10 had empty mask
+1: Rank 4 had empty mask
+3: Rank 15 had empty mask
+1: Rank 5 had empty mask
+1: Rank 7 had empty mask
+2: Rank 8 had empty mask
+2: Rank 9 had empty mask
+3: Rank 13 had empty mask
+3: Rank 14 had empty mask
+0: Rank 1 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+1: Rank 4 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 9 had empty mask
+1: Rank 5 had empty mask
+2: Rank 9 had empty mask
+3: Rank 14 had empty mask
+0: Rank 1 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 2 had empty mask
+0: Rank 3 had empty mask
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+3: Rank 13 had empty mask
+3: Rank 13 had empty mask
+0: Rank 2 had empty mask
+1: Rank 7 had empty mask
+3: Rank 13 had empty mask
+3: Rank 15 had empty mask
+2: Rank 9 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 2 had empty mask
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 7 had empty mask
+1: Rank 5 had empty mask
+1: Rank 7 had empty mask
+1: Rank 6 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+1: Rank 7 had empty mask
+3: Rank 13 had empty mask
+3: Rank 13 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+0: Rank 1 had empty mask
+3: Rank 12 had empty mask
+3: Rank 14 had empty mask
+1: Rank 6 had empty mask
+0: Rank 1 had empty mask
+3: Rank 14 had empty mask
+3: Rank 12 had empty mask
+1: Rank 7 had empty mask
+0: Rank 1 had empty mask
+1: Rank 5 had empty mask
+3: Rank 14 had empty mask
+3: Rank 13 had empty mask
+3: Rank 14 had empty mask
+1: Rank 4 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+2: Rank 11 had empty mask
+2: Rank 10 had empty mask
+1: Rank 6 had empty mask
+2: Rank 9 had empty mask
+2: Rank 8 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 1 had empty mask
+3: Rank 15 had empty mask
+2: Rank 11 had empty mask
+3: Rank 13 had empty mask
+0: Rank 2 had empty mask
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+3: Rank 12 had empty mask
+0: Rank 3 had empty mask
+0: Rank 2 had empty mask
+0: 
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 5 had empty mask
+3: Rank 13 had empty mask
+3: Rank 13 had empty mask
+1: Rank 6 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+2: Rank 11 had empty mask
+0: Rank 2 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 7 had empty mask
+2: Rank 9 had empty mask
+2: Rank 9 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+0: Rank 3 had empty mask
+0: 
+2: Rank 11 had empty mask
+1: Rank 6 had empty mask
+3: Rank 13 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+0: Rank 2 had empty mask
+2: Rank 8 had empty mask
+0: Rank 1 had empty mask
+1: Rank 4 had empty mask
+2: Rank 8 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 4 had empty mask
+1: Rank 4 had empty mask
+0: Rank 2 had empty mask
+2: Rank 8 had empty mask
+3: Rank 14 had empty mask
+2: Rank 9 had empty mask
+1: Rank 4 had empty mask
+2: Rank 9 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+0: Rank 1 had empty mask
+3: Rank 14 had empty mask
+1: Rank 6 had empty mask
+0: Rank 2 had empty mask
+0: 
+1: Rank 7 had empty mask
+1: Rank 7 had empty mask
+3: Rank 13 had empty mask
+2: Rank 11 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 14 had empty mask
+1: Rank 5 had empty mask
+3: Rank 15 had empty mask
+1: Rank 7 had empty mask
+2: Rank 8 had empty mask
+3: Rank 15 had empty mask
+3: Rank 13 had empty mask
+0: Rank 2 had empty mask
+3: Rank 13 had empty mask
+2: Rank 8 had empty mask
+3: Rank 15 had empty mask
+1: Rank 5 had empty mask
+2: Rank 10 had empty mask
+2: Rank 10 had empty mask
+1: Rank 7 had empty mask
+1: Rank 7 had empty mask
+1: Rank 4 had empty mask
+3: Rank 13 had empty mask
+1: Rank 4 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 10 had empty mask
+2: Rank 8 had empty mask
+2: 
+0: Rank 1 had empty mask
+2: Rank 11 had empty mask
+0: Rank 1 had empty mask
+3: Rank 12 had empty mask
+2: Rank 11 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+2: Rank 9 had empty mask
+0: Rank 1 had empty mask
+0: 
+1: Rank 4 had empty mask
+1: Rank 6 had empty mask
+3: Rank 15 had empty mask
+2: Rank 11 had empty mask
+2: Rank 10 had empty mask
+1: Rank 6 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 5 had empty mask
+1: Rank 6 had empty mask
+3: Rank 13 had empty mask
+3: Rank 15 had empty mask
+2: Rank 9 had empty mask
+2: Rank 9 had empty mask
+2: Rank 9 had empty mask
+1: Rank 7 had empty mask
+2: Rank 8 had empty mask
+2: Rank 8 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+1: Rank 7 had empty mask
+1: Rank 7 had empty mask
+3: Rank 14 had empty mask
+3: Rank 14 had empty mask
+0: Rank 3 had empty mask
+3: Rank 12 had empty mask
+1: Rank 5 had empty mask
+3: Rank 14 had empty mask
+1: Rank 4 had empty mask
+3: Rank 13 had empty mask
+2: Rank 10 had empty mask
+1: Rank 4 had empty mask
+2: Rank 11 had empty mask
+1: Rank 6 had empty mask
+2: Rank 9 had empty mask
+3: Rank 13 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 2 had empty mask
+2: Rank 8 had empty mask
+3: Rank 13 had empty mask
+3: Rank 14 had empty mask
+1: Rank 6 had empty mask
+2: Rank 9 had empty mask
+2: Rank 11 had empty mask
+1: Rank 6 had empty mask
+1: Rank 4 had empty mask
+1: Rank 7 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 11 had empty mask
+0: Rank 2 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 13 had empty mask
+0: Rank 2 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 1 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 11 had empty mask
+1: Rank 7 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+1: Rank 6 had empty mask
+2: Rank 9 had empty mask
+0: Rank 1 had empty mask
+0: 
+0: Rank 1 had empty mask
+3: Rank 13 had empty mask
+0: Rank 2 had empty mask
+0: 
+3: Rank 15 had empty mask
+1: Rank 7 had empty mask
+1: 
+1: Rank 5 had empty mask
+0: Rank 2 had empty mask
+1: Rank 6 had empty mask
+1: Rank 4 had empty mask
+3: Rank 12 had empty mask
+1: Rank 5 had empty mask
+0: Rank 2 had empty mask
+3: Rank 15 had empty mask
+2: Rank 11 had empty mask
+0: Rank 1 had empty mask
+1: Rank 4 had empty mask
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+2: Rank 11 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 10 had empty mask
+2: Rank 11 had empty mask
+3: Rank 15 had empty mask
+2: Rank 10 had empty mask
+0: Rank 3 had empty mask
+0: Rank 1 had empty mask
+3: Rank 14 had empty mask
+3: Rank 13 had empty mask
+2: Rank 8 had empty mask
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+0: Rank 3 had empty mask
+1: Rank 7 had empty mask
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+0: Rank 2 had empty mask
+2: Rank 9 had empty mask
+1: Rank 5 had empty mask
+3: Rank 13 had empty mask
+2: Rank 8 had empty mask
+3: Rank 12 had empty mask
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+0: Rank 2 had empty mask
+1: Rank 6 had empty mask
+3: Rank 13 had empty mask
+2: Rank 11 had empty mask
+0: Rank 1 had empty mask
+1: Rank 6 had empty mask
+2: Rank 10 had empty mask
+1: Rank 4 had empty mask
+3: Rank 12 had empty mask
+1: Rank 7 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 1 had empty mask
+1: Rank 6 had empty mask
+3: Rank 12 had empty mask
+1: Rank 5 had empty mask
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+3: Rank 13 had empty mask
+1: Rank 5 had empty mask
+0: Rank 2 had empty mask
+2: Rank 11 had empty mask
+0: Rank 1 had empty mask
+1: Rank 6 had empty mask
+3: Rank 14 had empty mask
+3: Rank 12 had empty mask
+2: Rank 9 had empty mask
+3: Rank 13 had empty mask
+2: Rank 9 had empty mask
+0: Rank 1 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+3: Rank 14 had empty mask
+1: Rank 4 had empty mask
+2: Rank 10 had empty mask
+1: Rank 6 had empty mask
+0: Rank 1 had empty mask
+2: Rank 11 had empty mask
+3: Rank 15 had empty mask
+3: Rank 12 had empty mask
+3: Rank 14 had empty mask
+2: Rank 11 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 9 had empty mask
+2: Rank 11 had empty mask
+1: Rank 6 had empty mask
+1: Rank 6 had empty mask
+2: Rank 9 had empty mask
+2: Rank 8 had empty mask
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+3: Rank 12 had empty mask
+0: Rank 2 had empty mask
+0: Rank 2 had empty mask
+1: Rank 4 had empty mask
+3: Rank 14 had empty mask
+2: Rank 9 had empty mask
+0: Rank 1 had empty mask
+0: 
+0: Rank 3 had empty mask
+3: Rank 14 had empty mask
+1: Rank 5 had empty mask
+2: Rank 9 had empty mask
+2: Rank 8 had empty mask
+2: Rank 10 had empty mask
+2: Rank 10 had empty mask
+0: Rank 3 had empty mask
+3: Rank 12 had empty mask
+3: Rank 13 had empty mask
+3: Rank 14 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 4 had empty mask
+2: Rank 10 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 15 had empty mask
+1: Rank 6 had empty mask
+1: Rank 6 had empty mask
+0: Rank 1 had empty mask
+0: Rank 3 had empty mask
+0: Rank 2 had empty mask
+2: Rank 11 had empty mask
+0: Rank 2 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+1: Rank 6 had empty mask
+1: Rank 5 had empty mask
+1: Rank 5 had empty mask
+2: Rank 8 had empty mask
+2: Rank 8 had empty mask
+3: Rank 13 had empty mask
+0: Rank 3 had empty mask
+2: Rank 10 had empty mask
+2: Rank 11 had empty mask
+1: Rank 5 had empty mask
+1: Rank 5 had empty mask
+1: Rank 5 had empty mask
+3: Rank 13 had empty mask
+3: Rank 14 had empty mask
+0: Rank 3 had empty mask
+3: Rank 13 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 12 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+1: Rank 6 had empty mask
+1: Rank 4 had empty mask
+2: Rank 11 had empty mask
+3: Rank 15 had empty mask
+1: Rank 4 had empty mask
+2: Rank 10 had empty mask
+3: Rank 12 had empty mask
+1: Rank 4 had empty mask
+2: Rank 10 had empty mask
+1: Rank 4 had empty mask
+3: Rank 13 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+2: Rank 11 had empty mask
+2: Rank 10 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+1: Rank 6 had empty mask
+1: Rank 6 had empty mask
+0: Rank 1 had empty mask
+0: 
+2: Rank 10 had empty mask
+1: Rank 5 had empty mask
+3: Rank 14 had empty mask
+3: Rank 14 had empty mask
+0: Rank 2 had empty mask
+0: Rank 2 had empty mask
+2: Rank 8 had empty mask
+2: Rank 10 had empty mask
+3: Rank 15 had empty mask
+2: Rank 11 had empty mask
+3: Rank 15 had empty mask
+3: Rank 13 had empty mask
+2: Rank 11 had empty mask
+0: Rank 1 had empty mask
+3: Rank 15 had empty mask
+2: Rank 8 had empty mask
+2: Rank 8 had empty mask
+1: Rank 7 had empty mask
+3: Rank 15 had empty mask
+1: Rank 4 had empty mask
+2: Rank 9 had empty mask
+3: Rank 12 had empty mask
+2: Rank 9 had empty mask
+2: Rank 8 had empty mask
+1: Rank 6 had empty mask
+2: Rank 8 had empty mask
+1: Rank 5 had empty mask
+2: Rank 9 had empty mask
+1: Rank 4 had empty mask
+1: Rank 5 had empty mask
+2: Rank 8 had empty mask
+1: Rank 6 had empty mask
+3: Rank 13 had empty mask
+2: Rank 10 had empty mask
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+2: Rank 8 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+0: Rank 2 had empty mask
+2: Rank 11 had empty mask
+1: Rank 5 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 8 had empty mask
+1: Rank 7 had empty mask
+2: Rank 9 had empty mask
+0: Rank 1 had empty mask
+0: 
+2: Rank 8 had empty mask
+2: 
+1: Rank 7 had empty mask
+1: Rank 4 had empty mask
+2: Rank 8 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+1: Rank 5 had empty mask
+1: Rank 7 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 8 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 11 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 13 had empty mask
+1: Rank 7 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 4 had empty mask
+1: Rank 7 had empty mask
+1: Rank 4 had empty mask
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+3: Rank 12 had empty mask
+1: Rank 7 had empty mask
+1: Rank 4 had empty mask
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+2: Rank 10 had empty mask
+2: Rank 9 had empty mask
+2: 
+3: Rank 13 had empty mask
+1: Rank 6 had empty mask
+3: Rank 12 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 1 had empty mask
+1: Rank 7 had empty mask
+2: Rank 10 had empty mask
+3: Rank 12 had empty mask
+3: Rank 12 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+1: Rank 7 had empty mask
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+3: Rank 14 had empty mask
+0: Rank 2 had empty mask
+2: Rank 8 had empty mask
+2: Rank 8 had empty mask
+3: Rank 12 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+1: Rank 5 had empty mask
+3: Rank 15 had empty mask
+1: Rank 6 had empty mask
+0: Rank 1 had empty mask
+3: Rank 14 had empty mask
+3: Rank 13 had empty mask
+1: Rank 7 had empty mask
+2: Rank 9 had empty mask
+0: Rank 2 had empty mask
+1: Rank 6 had empty mask
+3: Rank 13 had empty mask
+3: Rank 14 had empty mask
+0: Rank 2 had empty mask
+2: Rank 10 had empty mask
+0: Rank 3 had empty mask
+3: Rank 14 had empty mask
+2: Rank 9 had empty mask
+3: Rank 12 had empty mask
+2: Rank 9 had empty mask
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+2: Rank 8 had empty mask
+3: Rank 14 had empty mask
+2: Rank 10 had empty mask
+2: Rank 9 had empty mask
+0: Rank 1 had empty mask
+3: Rank 14 had empty mask
+1: Rank 6 had empty mask
+3: Rank 15 had empty mask
+2: Rank 9 had empty mask
+1: Rank 4 had empty mask
+2: Rank 10 had empty mask
+3: Rank 15 had empty mask
+1: Rank 6 had empty mask
+1: Rank 6 had empty mask
+3: Rank 12 had empty mask
+3: Rank 14 had empty mask
+1: Rank 5 had empty mask
+3: Rank 14 had empty mask
+2: Rank 11 had empty mask
+3: Rank 14 had empty mask
+1: Rank 5 had empty mask
+1: Rank 7 had empty mask
+0: Rank 3 had empty mask
+0: 
+2: Rank 9 had empty mask
+0: Rank 2 had empty mask
+0: 
+0: Rank 3 had empty mask
+0: 
+3: Rank 14 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+2: Rank 11 had empty mask
+3: Rank 12 had empty mask
+1: Rank 7 had empty mask
+1: Rank 5 had empty mask
+2: Rank 10 had empty mask
+0: Rank 2 had empty mask
+0: 
+0: Rank 2 had empty mask
+0: Rank 1 had empty mask
+3: Rank 15 had empty mask
+3: Rank 13 had empty mask
+3: Rank 12 had empty mask
+1: Rank 5 had empty mask
+2: Rank 9 had empty mask
+2: Rank 10 had empty mask
+3: Rank 12 had empty mask
+3: Rank 14 had empty mask
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+1: Rank 6 had empty mask
+1: Rank 5 had empty mask
+1: Rank 5 had empty mask
+1: Rank 5 had empty mask
+3: Rank 15 had empty mask
+3: Rank 15 had empty mask
+2: Rank 11 had empty mask
+0: Rank 2 had empty mask
+3: Rank 13 had empty mask
+1: Rank 7 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 5 had empty mask
+1: Rank 5 had empty mask
+0: Rank 3 had empty mask
+0: Rank 3 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+0: Rank 3 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+0: Rank 2 had empty mask
+0: Rank 2 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 7 had empty mask
+2: Rank 10 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+0: Rank 3 had empty mask
+1: Rank 4 had empty mask
+2: Rank 11 had empty mask
+3: Rank 13 had empty mask
+2: Rank 11 had empty mask
+3: Rank 14 had empty mask
+0: Rank 2 had empty mask
+2: Rank 10 had empty mask
+1: Rank 5 had empty mask
+0: Rank 3 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+0: Rank 3 had empty mask
+0: Rank 2 had empty mask
+0: 
+3: Rank 15 had empty mask
+0: Rank 1 had empty mask
+0: Rank 2 had empty mask
+2: Rank 9 had empty mask
+2: Rank 10 had empty mask
+2: Rank 11 had empty mask
+1: Rank 5 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+3: Rank 12 had empty mask
+2: Rank 10 had empty mask
+3: Rank 13 had empty mask
+0: Rank 3 had empty mask
+0: Rank 3 had empty mask
+2: Rank 9 had empty mask
+2: Rank 9 had empty mask
+2: 
+0: Rank 2 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 9 had empty mask
+2: Rank 11 had empty mask
+2: Rank 10 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+2: Rank 11 had empty mask
+1: Rank 5 had empty mask
+2: Rank 10 had empty mask
+1: Rank 7 had empty mask
+1: Rank 5 had empty mask
+2: Rank 8 had empty mask
+1: Rank 5 had empty mask
+0: Rank 3 had empty mask
+3: Rank 12 had empty mask
+1: Rank 5 had empty mask
+3: Rank 13 had empty mask
+0: Rank 2 had empty mask
+2: Rank 9 had empty mask
+3: Rank 15 had empty mask
+1: Rank 6 had empty mask
+1: Rank 5 had empty mask
+1: Rank 6 had empty mask
+3: Rank 13 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 2 had empty mask
+0: Rank 1 had empty mask
+1: Rank 6 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+2: Rank 10 had empty mask
+2: Rank 8 had empty mask
+3: Rank 14 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 7 had empty mask
+3: Rank 13 had empty mask
+0: Rank 3 had empty mask
+2: Rank 8 had empty mask
+2: 
+1: Rank 6 had empty mask
+0: Rank 1 had empty mask
+0: Rank 1 had empty mask
+0: 
+1: Rank 7 had empty mask
+2: Rank 9 had empty mask
+3: Rank 14 had empty mask
+2: Rank 11 had empty mask
+0: Rank 2 had empty mask
+2: Rank 10 had empty mask
+0: Rank 1 had empty mask
+2: Rank 9 had empty mask
+3: Rank 13 had empty mask
+3: Rank 14 had empty mask
+0: Rank 1 had empty mask
+2: Rank 10 had empty mask
+0: Rank 2 had empty mask
+0: Rank 3 had empty mask
+2: Rank 10 had empty mask
+3: Rank 13 had empty mask
+2: Rank 9 had empty mask
+3: Rank 15 had empty mask
+0: Rank 2 had empty mask
+2: Rank 9 had empty mask
+2: Rank 9 had empty mask
+2: Rank 11 had empty mask
+2: Rank 8 had empty mask
+0: Rank 3 had empty mask
+2: Rank 8 had empty mask
+0: Rank 1 had empty mask
+1: Rank 6 had empty mask
+1: Rank 4 had empty mask
+2: Rank 10 had empty mask
+0: Rank 2 had empty mask
+1: Rank 6 had empty mask
+3: Rank 13 had empty mask
+3: Rank 13 had empty mask
+0: Rank 1 had empty mask
+0: 
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 1 had empty mask
+1: Rank 7 had empty mask
+0: Rank 1 had empty mask
+0: Rank 3 had empty mask
+3: Rank 13 had empty mask
+3: Rank 12 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 3 had empty mask
+3: Rank 13 had empty mask
+3: Rank 12 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+0: Rank 2 had empty mask
+3: Rank 13 had empty mask
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+2: Rank 8 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 12 had empty mask
+1: Rank 5 had empty mask
+0: Rank 2 had empty mask
+0: Rank 3 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 5 had empty mask
+2: Rank 8 had empty mask
+1: Rank 5 had empty mask
+2: Rank 10 had empty mask
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+1: Rank 6 had empty mask
+3: Rank 14 had empty mask
+2: Rank 9 had empty mask
+2: Rank 10 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 5 had empty mask
+2: Rank 10 had empty mask
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+3: Rank 15 had empty mask
+0: Rank 2 had empty mask
+0: 
+2: Rank 10 had empty mask
+3: Rank 12 had empty mask
+1: Rank 6 had empty mask
+0: Rank 3 had empty mask
+3: Rank 15 had empty mask
+1: Rank 6 had empty mask
+2: Rank 8 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 10 had empty mask
+0: Rank 3 had empty mask
+3: Rank 13 had empty mask
+1: Rank 4 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+2: Rank 11 had empty mask
+1: Rank 7 had empty mask
+3: Rank 12 had empty mask
+0: Rank 1 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+3: Rank 15 had empty mask
+0: Rank 2 had empty mask
+3: Rank 14 had empty mask
+2: Rank 9 had empty mask
+3: Rank 15 had empty mask
+1: Rank 5 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+1: Rank 4 had empty mask
+0: Rank 2 had empty mask
+1: Rank 7 had empty mask
+1: Rank 6 had empty mask
+1: Rank 6 had empty mask
+0: Rank 1 had empty mask
+2: Rank 8 had empty mask
+0: Rank 2 had empty mask
+3: Rank 13 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 7 had empty mask
+1: Rank 4 had empty mask
+2: Rank 8 had empty mask
+1: Rank 4 had empty mask
+3: Rank 15 had empty mask
+3: Rank 14 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 8 had empty mask
+3: Rank 14 had empty mask
+1: Rank 6 had empty mask
+2: Rank 8 had empty mask
+0: Rank 3 had empty mask
+3: Rank 12 had empty mask
+1: Rank 5 had empty mask
+2: Rank 10 had empty mask
+1: Rank 5 had empty mask
+2: Rank 9 had empty mask
+1: Rank 7 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+2: Rank 9 had empty mask
+3: Rank 12 had empty mask
+1: Rank 4 had empty mask
+1: Rank 7 had empty mask
+0: Rank 1 had empty mask
+1: Rank 7 had empty mask
+0: Rank 1 had empty mask
+1: Rank 5 had empty mask
+2: Rank 8 had empty mask
+1: Rank 7 had empty mask
+1: Rank 4 had empty mask
+1: Rank 7 had empty mask
+3: Rank 14 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 3 had empty mask
+2: Rank 10 had empty mask
+3: Rank 12 had empty mask
+1: Rank 4 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 9 had empty mask
+1: Rank 5 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+2: Rank 10 had empty mask
+0: Rank 1 had empty mask
+2: Rank 9 had empty mask
+1: Rank 6 had empty mask
+2: Rank 11 had empty mask
+0: Rank 1 had empty mask
+0: Rank 2 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+3: Rank 13 had empty mask
+3: Rank 13 had empty mask
+0: Rank 3 had empty mask
+3: Rank 14 had empty mask
+0: Rank 3 had empty mask
+2: Rank 9 had empty mask
+1: Rank 6 had empty mask
+2: Rank 11 had empty mask
+1: Rank 6 had empty mask
+0: Rank 3 had empty mask
+2: Rank 10 had empty mask
+0: Rank 1 had empty mask
+0: 
+3: Rank 15 had empty mask
+0: Rank 3 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 3 had empty mask
+3: Rank 12 had empty mask
+1: Rank 4 had empty mask
+2: Rank 10 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+1: Rank 4 had empty mask
+1: Rank 6 had empty mask
+3: Rank 14 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+1: Rank 7 had empty mask
+3: Rank 13 had empty mask
+2: Rank 8 had empty mask
+0: Rank 2 had empty mask
+0: Rank 3 had empty mask
+1: Rank 7 had empty mask
+3: Rank 12 had empty mask
+3: Rank 13 had empty mask
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+0: Rank 3 had empty mask
+0: 
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 6 had empty mask
+1: Rank 7 had empty mask
+0: Rank 3 had empty mask
+2: Rank 10 had empty mask
+3: Rank 12 had empty mask
+3: Rank 12 had empty mask
+0: Rank 2 had empty mask
+2: Rank 11 had empty mask
+2: Rank 8 had empty mask
+1: Rank 7 had empty mask
+2: Rank 8 had empty mask
+1: Rank 7 had empty mask
+0: Rank 2 had empty mask
+2: Rank 10 had empty mask
+0: Rank 1 had empty mask
+0: 
+1: Rank 7 had empty mask
+3: Rank 13 had empty mask
+3: Rank 12 had empty mask
+3: Rank 13 had empty mask
+1: Rank 6 had empty mask
+3: Rank 13 had empty mask
+3: Rank 12 had empty mask
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+1: Rank 7 had empty mask
+3: Rank 13 had empty mask
+0: Rank 2 had empty mask
+0: 
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 5 had empty mask
+2: Rank 10 had empty mask
+0: Rank 2 had empty mask
+3: Rank 13 had empty mask
+3: Rank 15 had empty mask
+1: Rank 6 had empty mask
+2: Rank 9 had empty mask
+0: Rank 2 had empty mask
+2: Rank 10 had empty mask
+3: Rank 13 had empty mask
+1: Rank 4 had empty mask
+3: Rank 14 had empty mask
+2: Rank 10 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 6 had empty mask
+1: Rank 7 had empty mask
+1: Rank 7 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 2 had empty mask
+3: Rank 14 had empty mask
+1: Rank 6 had empty mask
+3: Rank 15 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+1: Rank 4 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+0: Rank 2 had empty mask
+0: Rank 3 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 6 had empty mask
+2: Rank 11 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 3 had empty mask
+2: Rank 10 had empty mask
+1: Rank 5 had empty mask
+0: Rank 1 had empty mask
+1: Rank 7 had empty mask
+1: Rank 7 had empty mask
+3: Rank 13 had empty mask
+2: Rank 10 had empty mask
+2: Rank 10 had empty mask
+1: Rank 4 had empty mask
+2: Rank 10 had empty mask
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+1: Rank 6 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 10 had empty mask
+1: Rank 7 had empty mask
+3: Rank 12 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+3: Rank 15 had empty mask
+1: Rank 6 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+0: Rank 1 had empty mask
+0: Rank 1 had empty mask
+2: Rank 8 had empty mask
+2: Rank 8 had empty mask
+0: Rank 1 had empty mask
+0: 
+0: Rank 3 had empty mask
+3: Rank 15 had empty mask
+2: Rank 10 had empty mask
+1: Rank 7 had empty mask
+1: Rank 5 had empty mask
+0: Rank 1 had empty mask
+0: 
+2: Rank 9 had empty mask
+1: Rank 6 had empty mask
+2: Rank 11 had empty mask
+1: Rank 7 had empty mask
+3: Rank 14 had empty mask
+3: Rank 12 had empty mask
+2: Rank 10 had empty mask
+1: Rank 6 had empty mask
+3: Rank 15 had empty mask
+3: Rank 12 had empty mask
+0: Rank 3 had empty mask
+0: 
+3: Rank 13 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+0: Rank 3 had empty mask
+1: Rank 7 had empty mask
+1: Rank 5 had empty mask
+2: Rank 10 had empty mask
+0: Rank 1 had empty mask
+0: Rank 1 had empty mask
+0: Rank 3 had empty mask
+0: 
+2: Rank 11 had empty mask
+0: Rank 1 had empty mask
+2: Rank 8 had empty mask
+2: Rank 9 had empty mask
+3: Rank 14 had empty mask
+1: Rank 7 had empty mask
+0: Rank 1 had empty mask
+3: Rank 15 had empty mask
+3: Rank 15 had empty mask
+0: Rank 1 had empty mask
+2: Rank 10 had empty mask
+2: Rank 11 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+1: Rank 7 had empty mask
+0: Rank 3 had empty mask
+0: Rank 1 had empty mask
+0: 
+3: Rank 13 had empty mask
+1: Rank 6 had empty mask
+3: Rank 15 had empty mask
+2: Rank 10 had empty mask
+2: Rank 11 had empty mask
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 3 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+0: Rank 1 had empty mask
+3: Rank 13 had empty mask
+3: Rank 15 had empty mask
+2: Rank 10 had empty mask
+1: Rank 6 had empty mask
+3: Rank 14 had empty mask
+3: Rank 14 had empty mask
+2: Rank 11 had empty mask
+3: Rank 13 had empty mask
+0: Rank 1 had empty mask
+0: 
+2: Rank 11 had empty mask
+3: Rank 15 had empty mask
+1: Rank 7 had empty mask
+0: Rank 3 had empty mask
+2: Rank 10 had empty mask
+2: Rank 9 had empty mask
+3: Rank 12 had empty mask
+3: Rank 14 had empty mask
+1: Rank 6 had empty mask
+1: Rank 7 had empty mask
+2: Rank 11 had empty mask
+3: Rank 14 had empty mask
+2: Rank 9 had empty mask
+0: Rank 2 had empty mask
+0: Rank 1 had empty mask
+2: Rank 9 had empty mask
+3: Rank 12 had empty mask
+0: Rank 1 had empty mask
+0: Rank 2 had empty mask
+0: Rank 2 had empty mask
+1: Rank 4 had empty mask
+3: Rank 14 had empty mask
+2: Rank 11 had empty mask
+0: Rank 1 had empty mask
+0: 
+3: Rank 13 had empty mask
+3: Rank 13 had empty mask
+2: Rank 9 had empty mask
+1: Rank 7 had empty mask
+3: Rank 12 had empty mask
+1: Rank 5 had empty mask
+1: Rank 6 had empty mask
+3: Rank 12 had empty mask
+2: Rank 9 had empty mask
+3: Rank 14 had empty mask
+2: Rank 10 had empty mask
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+3: Rank 14 had empty mask
+1: Rank 7 had empty mask
+1: Rank 6 had empty mask
+0: Rank 2 had empty mask
+2: Rank 9 had empty mask
+0: Rank 2 had empty mask
+1: Rank 7 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+0: Rank 3 had empty mask
+2: Rank 10 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+1: Rank 7 had empty mask
+3: Rank 14 had empty mask
+3: Rank 13 had empty mask
+2: Rank 10 had empty mask
+1: Rank 4 had empty mask
+3: Rank 15 had empty mask
+0: Rank 1 had empty mask
+1: Rank 6 had empty mask
+0: Rank 2 had empty mask
+2: Rank 11 had empty mask
+0: Rank 3 had empty mask
+0: Rank 3 had empty mask
+0: Rank 3 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+1: Rank 5 had empty mask
+3: Rank 15 had empty mask
+2: Rank 10 had empty mask
+2: Rank 9 had empty mask
+1: Rank 6 had empty mask
+0: Rank 3 had empty mask
+1: Rank 7 had empty mask
+0: Rank 1 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+0: Rank 2 had empty mask
+0: Rank 3 had empty mask
+0: 
+2: Rank 10 had empty mask
+2: Rank 8 had empty mask
+0: Rank 3 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+2: Rank 10 had empty mask
+2: Rank 10 had empty mask
+0: Rank 2 had empty mask
+3: Rank 15 had empty mask
+2: Rank 11 had empty mask
+3: Rank 15 had empty mask
+1: Rank 4 had empty mask
+1: Rank 4 had empty mask
+3: Rank 15 had empty mask
+3: Rank 14 had empty mask
+0: Rank 3 had empty mask
+0: 
+2: Rank 11 had empty mask
+3: Rank 14 had empty mask
+2: Rank 10 had empty mask
+0: Rank 3 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 14 had empty mask
+0: Rank 3 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: Rank 2 had empty mask
+3: Rank 15 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+0: Rank 1 had empty mask
+2: Rank 9 had empty mask
+3: Rank 15 had empty mask
+3: Rank 13 had empty mask
+1: Rank 7 had empty mask
+1: Rank 7 had empty mask
+0: Rank 1 had empty mask
+0: 
+1: Rank 5 had empty mask
+1: Rank 6 had empty mask
+0: Rank 2 had empty mask
+2: Rank 10 had empty mask
+2: Rank 9 had empty mask
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+1: Rank 7 had empty mask
+1: Rank 4 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+3: Rank 12 had empty mask
+0: Rank 1 had empty mask
+0: 
+0: Rank 1 had empty mask
+2: Rank 8 had empty mask
+0: Rank 3 had empty mask
+0: 
+0: Rank 3 had empty mask
+0: 
+0: Rank 2 had empty mask
+0: 
+0: Rank 3 had empty mask
+0: Rank 1 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 15 had empty mask
+0: Rank 1 had empty mask
+0: 
+2: Rank 8 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 7 had empty mask
+3: Rank 15 had empty mask
+1: Rank 5 had empty mask
+3: Rank 14 had empty mask
+0: Rank 2 had empty mask
+3: Rank 14 had empty mask
+3: Rank 15 had empty mask
+0: Rank 2 had empty mask
+3: Rank 12 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 14 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 15 had empty mask
+1: Rank 6 had empty mask
+0: Rank 1 had empty mask
+2: Rank 11 had empty mask
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+1: Rank 6 had empty mask
+1: Rank 5 had empty mask
+2: Rank 10 had empty mask
+2: Rank 8 had empty mask
+1: Rank 6 had empty mask
+2: Rank 11 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+1: Rank 4 had empty mask
+2: Rank 9 had empty mask
+2: Rank 9 had empty mask
+0: Rank 3 had empty mask
+2: Rank 9 had empty mask
+3: Rank 15 had empty mask
+3: Rank 12 had empty mask
+0: Rank 2 had empty mask
+0: Rank 1 had empty mask
+2: Rank 10 had empty mask
+2: Rank 9 had empty mask
+2: Rank 10 had empty mask
+2: Rank 10 had empty mask
+2: Rank 10 had empty mask
+0: Rank 1 had empty mask
+2: Rank 10 had empty mask
+1: Rank 4 had empty mask
+2: Rank 9 had empty mask
+1: Rank 6 had empty mask
+1: Rank 5 had empty mask
+2: Rank 9 had empty mask
+1: Rank 7 had empty mask
+1: Rank 4 had empty mask
+1: Rank 4 had empty mask
+1: Rank 5 had empty mask
+0: Rank 3 had empty mask
+0: 
+1: Rank 7 had empty mask
+2: Rank 8 had empty mask
+1: Rank 7 had empty mask
+1: Rank 4 had empty mask
+1: Rank 6 had empty mask
+0: Rank 1 had empty mask
+0: 
+0: Rank 1 had empty mask
+2: Rank 10 had empty mask
+2: Rank 8 had empty mask
+1: Rank 4 had empty mask
+2: Rank 11 had empty mask
+2: Rank 8 had empty mask
+3: Rank 13 had empty mask
+3: Rank 15 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 6 had empty mask
+2: Rank 10 had empty mask
+2: Rank 8 had empty mask
+1: Rank 6 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+2: Rank 11 had empty mask
+1: Rank 4 had empty mask
+2: Rank 8 had empty mask
+1: Rank 6 had empty mask
+3: Rank 12 had empty mask
+3: Rank 14 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 7 had empty mask
+3: Rank 14 had empty mask
+3: Rank 14 had empty mask
+2: Rank 9 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 10 had empty mask
+2: Rank 11 had empty mask
+1: Rank 7 had empty mask
+3: Rank 15 had empty mask
+3: Rank 13 had empty mask
+2: Rank 10 had empty mask
+2: Rank 9 had empty mask
+3: Rank 13 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 11 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 7 had empty mask
+2: Rank 8 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+2: Rank 8 had empty mask
+3: Rank 15 had empty mask
+3: Rank 13 had empty mask
+1: Rank 7 had empty mask
+3: Rank 15 had empty mask
+2: Rank 8 had empty mask
+3: Rank 14 had empty mask
+3: Rank 14 had empty mask
+3: Rank 14 had empty mask
+1: Rank 6 had empty mask
+2: Rank 8 had empty mask
+3: Rank 12 had empty mask
+1: Rank 7 had empty mask
+0: Rank 2 had empty mask
+2: Rank 10 had empty mask
+2: Rank 8 had empty mask
+3: Rank 14 had empty mask
+1: Rank 5 had empty mask
+1: Rank 7 had empty mask
+0: Rank 2 had empty mask
+0: 
+1: Rank 4 had empty mask
+3: Rank 14 had empty mask
+2: Rank 10 had empty mask
+2: Rank 8 had empty mask
+3: Rank 12 had empty mask
+2: Rank 9 had empty mask
+1: Rank 5 had empty mask
+1: Rank 5 had empty mask
+0: Rank 3 had empty mask
+1: Rank 5 had empty mask
+2: Rank 11 had empty mask
+2: 
+0: Rank 1 had empty mask
+1: Rank 4 had empty mask
+3: Rank 14 had empty mask
+3: Rank 13 had empty mask
+3: Rank 15 had empty mask
+2: Rank 10 had empty mask
+3: Rank 15 had empty mask
+3: Rank 13 had empty mask
+3: Rank 13 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 13 had empty mask
+2: Rank 8 had empty mask
+0: Rank 2 had empty mask
+3: Rank 13 had empty mask
+3: Rank 14 had empty mask
+1: Rank 7 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 13 had empty mask
+3: Rank 15 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+2: Rank 11 had empty mask
+1: Rank 7 had empty mask
+1: Rank 6 had empty mask
+3: Rank 13 had empty mask
+2: Rank 8 had empty mask
+2: 
+2: Rank 9 had empty mask
+1: Rank 7 had empty mask
+0: Rank 1 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 3 had empty mask
+0: Rank 0 had empty mask
+0: 
+3: Rank 15 had empty mask
+0: Rank 2 had empty mask
+1: Rank 5 had empty mask
+0: Rank 1 had empty mask
+1: Rank 5 had empty mask
+1: Rank 6 had empty mask
+1: Rank 5 had empty mask
+3: Rank 15 had empty mask
+0: Rank 1 had empty mask
+1: Rank 5 had empty mask
+3: Rank 15 had empty mask
+1: Rank 6 had empty mask
+3: Rank 14 had empty mask
+2: Rank 10 had empty mask
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+2: Rank 10 had empty mask
+2: Rank 8 had empty mask
+2: 
+3: Rank 13 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 5 had empty mask
+2: Rank 8 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+1: Rank 7 had empty mask
+3: Rank 13 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+3: Rank 13 had empty mask
+1: Rank 7 had empty mask
+2: Rank 8 had empty mask
+1: Rank 7 had empty mask
+1: Rank 4 had empty mask
+2: Rank 8 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+3: Rank 13 had empty mask
+2: Rank 11 had empty mask
+3: Rank 12 had empty mask
+0: Rank 1 had empty mask
+2: Rank 10 had empty mask
+0: Rank 2 had empty mask
+1: Rank 7 had empty mask
+0: Rank 2 had empty mask
+1: Rank 6 had empty mask
+2: Rank 11 had empty mask
+3: Rank 12 had empty mask
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+2: Rank 11 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 10 had empty mask
+0: Rank 2 had empty mask
+2: Rank 11 had empty mask
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+1: Rank 6 had empty mask
+1: Rank 4 had empty mask
+1: Rank 5 had empty mask
+3: Rank 12 had empty mask
+3: Rank 13 had empty mask
+0: Rank 2 had empty mask
+0: Rank 2 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 11 had empty mask
+2: Rank 8 had empty mask
+2: Rank 8 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 7 had empty mask
+3: Rank 12 had empty mask
+3: Rank 14 had empty mask
+2: Rank 11 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 7 had empty mask
+1: Rank 6 had empty mask
+1: Rank 6 had empty mask
+2: Rank 9 had empty mask
+3: Rank 15 had empty mask
+2: Rank 8 had empty mask
+1: Rank 5 had empty mask
+0: Rank 1 had empty mask
+1: Rank 5 had empty mask
+2: Rank 10 had empty mask
+3: Rank 13 had empty mask
+2: Rank 11 had empty mask
+0: Rank 3 had empty mask
+3: Rank 12 had empty mask
+0: Rank 1 had empty mask
+3: Rank 15 had empty mask
+3: Rank 15 had empty mask
+0: Rank 2 had empty mask
+3: Rank 13 had empty mask
+1: Rank 4 had empty mask
+0: Rank 1 had empty mask
+1: Rank 5 had empty mask
+0: Rank 1 had empty mask
+3: Rank 12 had empty mask
+3: Rank 14 had empty mask
+0: Rank 1 had empty mask
+1: Rank 7 had empty mask
+1: Rank 6 had empty mask
+2: Rank 9 had empty mask
+3: Rank 13 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 6 had empty mask
+3: Rank 15 had empty mask
+2: Rank 10 had empty mask
+2: Rank 11 had empty mask
+0: Rank 2 had empty mask
+1: Rank 6 had empty mask
+2: Rank 9 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+2: Rank 8 had empty mask
+2: Rank 8 had empty mask
+2: Rank 8 had empty mask
+2: Rank 8 had empty mask
+1: Rank 4 had empty mask
+2: Rank 10 had empty mask
+2: Rank 11 had empty mask
+2: Rank 10 had empty mask
+1: Rank 5 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 5 had empty mask
+1: Rank 4 had empty mask
+2: Rank 10 had empty mask
+3: Rank 14 had empty mask
+0: Rank 1 had empty mask
+0: 
+3: Rank 15 had empty mask
+3: Rank 14 had empty mask
+0: Rank 1 had empty mask
+0: 
+3: Rank 15 had empty mask
+0: Rank 3 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+1: Rank 6 had empty mask
+2: Rank 8 had empty mask
+1: Rank 6 had empty mask
+3: Rank 13 had empty mask
+2: Rank 11 had empty mask
+2: Rank 10 had empty mask
+3: Rank 13 had empty mask
+3: Rank 12 had empty mask
+3: Rank 13 had empty mask
+2: Rank 10 had empty mask
+1: Rank 5 had empty mask
+0: Rank 3 had empty mask
+3: Rank 12 had empty mask
+2: Rank 10 had empty mask
+1: Rank 7 had empty mask
+1: Rank 7 had empty mask
+1: Rank 6 had empty mask
+3: Rank 14 had empty mask
+2: Rank 10 had empty mask
+3: Rank 13 had empty mask
+2: Rank 9 had empty mask
+3: Rank 13 had empty mask
+0: No valid neighbours?!
+0: 
+0: Rank 0 had empty mask
+0: 
+1: Rank 6 had empty mask
+2: Rank 10 had empty mask
+0: Rank 2 had empty mask
+0: 
+1: Rank 6 had empty mask
+2: Rank 8 had empty mask
+0: Rank 2 had empty mask
+1: Rank 4 had empty mask
+1: Rank 7 had empty mask
+1: Rank 5 had empty mask
+3: Rank 14 had empty mask
+0: Rank 1 had empty mask
+1: Rank 6 had empty mask
+3: Rank 14 had empty mask
+1: Rank 5 had empty mask
+2: Rank 9 had empty mask
+2: Rank 9 had empty mask
+1: Rank 4 had empty mask
+2: Rank 9 had empty mask
+3: Rank 14 had empty mask
+3: Rank 13 had empty mask
+3: Rank 14 had empty mask
+2: Rank 8 had empty mask
+3: Rank 15 had empty mask
+1: Rank 5 had empty mask
+3: Rank 15 had empty mask
+3: 
+2: Rank 9 had empty mask
+1: Rank 4 had empty mask
+1: Rank 5 had empty mask
+3: Rank 14 had empty mask
+1: Rank 6 had empty mask
+0: Rank 1 had empty mask
+2: Rank 9 had empty mask
+3: Rank 12 had empty mask
+3: Rank 12 had empty mask
+3: Rank 13 had empty mask
+3: Rank 12 had empty mask
+0: Rank 2 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+3: Rank 14 had empty mask
+2: Rank 10 had empty mask
+2: Rank 11 had empty mask
+2: Rank 10 had empty mask
+2: Rank 8 had empty mask
+0: Rank 3 had empty mask
+2: Rank 11 had empty mask
+2: Rank 11 had empty mask
+1: Rank 6 had empty mask

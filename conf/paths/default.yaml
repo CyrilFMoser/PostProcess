@@ -1,0 +1,8 @@
+# @package _global_.paths
+scene_root: /users/cymoser/scratch/GaussianWorld
+metadata_root: /users/cymoser/scratch/GaussianWorld/metadata
+subset_cache_root: /users/cymoser/scratch/cache/GaussianWorld/scannetppv2
+checkpoint_dir: /iopsstor/scratch/cscs/cymoser/ckpt
+label_map_file: /capstor/store/cscs/swissai/a144/datasets/GaussianWorld/metadata/top100.txt
+log_dir: /users/cymoser/projects/PostProcess/logs
+wandb_dir: /users/cymoser/scratch

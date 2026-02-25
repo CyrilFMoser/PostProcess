@@ -1,0 +1,11 @@
+spawn bash
+send "uenv start --view=default pytorch/v2.6.0:v1\r"
+send "unset PYTHONPATH\r"
+send "export PYTHONUSERBASE=\"\$(dirname \"\$(dirname \"\$(which python)\")\")\"\r"
+send "source /users/cymoser/projects/PostProcess/venv/bin/activate\r"
+send "ulimit -c 0\r"
+send "export CUMM_CUDA_ARCH_LIST='9.0'\r"
+send "export SPCONV_DISABLE_JIT='1'\r"
+send "export OMP_NUM_THREADS=4\r"
+send "export HF_HUB_DISABLE_XET=1\r"
+interact

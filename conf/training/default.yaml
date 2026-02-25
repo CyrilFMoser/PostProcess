@@ -1,0 +1,21 @@
+# @package _global_.training
+N_EPOCHS: 300
+lr: 1e-3
+subset: 400000          # max points per scene loaded from dataset
+
+val_every: 500          # validate every N global steps
+ckpt_every: 501         # checkpoint every N global steps (should differ from val_every to avoid double-save)
+eval_every: 1           # compute mIoU stats every N global steps
+
+wandb_project: PostProcess
+
+validate_only: false
+preprocess: false
+
+load_chkpt: false
+chkpt_newest: false
+chkpt_path: ""
+
+excluded_classes: [0, 1, 2]   # wall, floor, ceiling
+
+num_nodes: 1  # overridden by run script via SLURM_NNODES

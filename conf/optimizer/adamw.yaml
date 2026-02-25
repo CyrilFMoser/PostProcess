@@ -1,0 +1,2 @@
+# @package _global_.optimizer
+weight_decay: 0.05

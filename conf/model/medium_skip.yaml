@@ -1,0 +1,16 @@
+# @package _global_.model
+name: medium_skip
+batch_size: 2
+
+stride: [2, 2]
+enc_depths: [2, 2, 2]
+enc_channels: [112, 200, 400]
+enc_num_head: [2, 4, 8]
+enc_patch_size: [1024, 1024, 1024]
+dec_depths: [2, 2]
+# dec_channels[0] is always class_subset (injected at runtime); list the rest here
+dec_channels_rest: [200]
+dec_num_head: [4, 8]
+dec_patch_size: [1024, 1024]
+enable_flash: true
+enable_skip: true

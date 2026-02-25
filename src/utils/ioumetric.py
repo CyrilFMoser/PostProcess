@@ -59,13 +59,15 @@ class IoUMetric:
         self.in_gts = self.in_gts | other.in_gts
         self.gt += other.gt
 
-    def log_all(self,prefix,writer,label_map,global_step):
+    def log_all(self, prefix, label_map):
         valid = self.in_gts
         if valid.sum() == 0:
-            return 0.0
+            return {}
         iou = self.intersections / (self.unions + 1e-8)
+        result = {}
         for cls in range(self.num_classes):
             if not valid[cls]:
                 continue
             name = label_map[cls]
-            writer.add_scalar(prefix+name,iou[cls],global_step)
+            result[prefix + name] = float(iou[cls])
+        return result
