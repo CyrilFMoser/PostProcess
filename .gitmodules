@@ -1,3 +1,0 @@
-[submodule "src/external/PointTransformerV3"]
-	path = src/external/PointTransformerV3
-	url = https://github.com/Pointcept/PointTransformerV3
