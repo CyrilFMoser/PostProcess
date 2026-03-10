@@ -1,6 +1,6 @@
 # @package _global_.training
-N_EPOCHS: 300
-lr: 1e-3
+N_EPOCHS: 400
+lr: 1e-4
 subset: 400000          # max points per scene loaded from dataset
 
 val_every: 500          # validate every N global steps
@@ -13,7 +13,7 @@ validate_only: false
 preprocess: false
 
 load_chkpt: false
-chkpt_newest: false
+chkpt_newest: true
 chkpt_path: ""
 
 excluded_classes: [0, 1, 2]   # wall, floor, ceiling

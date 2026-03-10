@@ -29,6 +29,26 @@ export FI_MR_CACHE_MONITOR=userfaultfd
 #   sbatch run_train_multi.sh model=medium_skip training.lr=1e-4 run_tag=lowlr
 HYDRA_ARGS="$@"
 
+# Step 1: Preprocessing on a single node — GPU queue is process-local, multi-node makes no sense here.
+# Uses nproc-per-node=1 (single DDP rank) but all 4 GPUs are still visible via cuda.device_count().
+srun --nodes=1 --ntasks=1 -ul bash -c '
+    unset PYTHONPATH
+    export PYTHONUSERBASE="$(dirname "$(dirname "$(which python)")")"
+    export CUMM_CUDA_ARCH_LIST="9.0"
+    export SPCONV_DISABLE_JIT="1"
+    source /users/cymoser/projects/PostProcess/scripts/api.env
+    source /users/cymoser/projects/PostProcess/venv/bin/activate
+
+    cd /users/cymoser/projects/PostProcess
+
+    python -m torch.distributed.run \
+        --master-addr=localhost \
+        --master-port=29500 \
+        --nnodes=1 \
+        --nproc-per-node=1 \
+        src/utils/train.py training.preprocess=true '"$HYDRA_ARGS"'
+'
+
 srun -ul bash -c '
     unset PYTHONPATH
     export PYTHONUSERBASE="$(dirname "$(dirname "$(which python)")")"

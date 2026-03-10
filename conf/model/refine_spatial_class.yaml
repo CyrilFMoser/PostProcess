@@ -1,0 +1,33 @@
+# @package _global_.model
+# Spatial aggregation followed by class aggregation — CAT-Seg two-stage approach.
+# Spatial: each class independently aggregates from nearby points (random order to prevent memorisation).
+# Class: at each point, C class tokens attend to each other to capture co-occurrence patterns.
+name: refine_spatial_class
+batch_size: 2
+
+stride: [2, 2]
+enc_depths: [2, 2, 2]
+enc_channels: [112, 200, 400]
+enc_num_head: [2, 4, 8]
+enc_patch_size: [1024, 1024, 1024]
+dec_depths: [2, 2]
+# dec_channels[0] = class_subset (injected at runtime); must be divisible by dec_num_head[0]=4
+dec_channels_rest: [200]
+dec_num_head: [4, 8]
+dec_patch_size: [1024, 1024]
+enable_flash: true
+enable_skip: false
+
+refinement:
+  input_skip: true             # add PTv3 input logits to final output
+  d_head: 16
+
+  spatial:
+    num_layers: 1
+    mlp_ratio: 2
+    enable_flash: true
+    random_order: true
+
+  class:
+    num_layers: 1
+    mlp_ratio: 4

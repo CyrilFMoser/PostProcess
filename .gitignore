@@ -1,6 +1,9 @@
 data/*
 src/pointconv_pytorch
-external/*
 runs/*
 ckpt/*
 */api.env
+logs/*
+wandb/*
+venv/*
+build/*

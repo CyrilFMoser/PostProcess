@@ -4,7 +4,7 @@ defaults:
   - paths: default
   - optimizer: adamw
   - scheduler: cosine
-  - loss: ce
+  - loss: ce_lovasz
   - _self_
 
 # Global params shared between model and dataset

@@ -1,0 +1,27 @@
+# @package _global_.model
+name: larger_embed
+batch_size: 1
+
+stride: [2, 2]
+enc_depths: [2, 2, 2]
+enc_channels: [112, 200, 400]
+enc_num_head: [2, 4, 8]
+enc_patch_size: [1024, 1024, 1024]
+dec_depths: [2, 2]
+# dec_channels[0] = embedding_dim * class_subset (injected at runtime)
+dec_channels_rest: [208]       # constant at embed_ch (4*52=208); divisible by dec_num_head[1]=8
+dec_num_head: [4, 8]
+dec_patch_size: [1024, 1024]
+enable_flash: true
+enable_skip: false             # incompatible with embedding_dim > 1
+
+refinement:
+  embedding_dim: 4             # dec_channels[0] = 4 * class_subset (e.g. 4*52=208)
+  input_skip: true             # add input logits to final output (residual over full model)
+  d_head: 16
+
+  spatial:
+    num_layers: 1
+    mlp_ratio: 2
+    enable_flash: true
+    random_order: true

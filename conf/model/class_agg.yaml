@@ -1,10 +1,10 @@
 # @package _global_.model
-name: medium
+name: class_agg
 batch_size: 2
 
 stride: [2, 2]
 enc_depths: [2, 2, 2]
-enc_channels: [112, 200, 400]
+enc_channels: [112, 200, 416]  # 416 = 8 * class_subset; enables bottleneck class aggregation
 enc_num_head: [2, 4, 8]
 enc_patch_size: [1024, 1024, 1024]
 dec_depths: [2, 2]
@@ -13,4 +13,9 @@ dec_channels_rest: [200]
 dec_num_head: [4, 8]
 dec_patch_size: [1024, 1024]
 enable_flash: true
-enable_skip: false
+enable_skip: true
+
+refinement:
+  bottleneck:                  # class agg at encoder bottleneck; d_head = 416//class_subset = 8
+    num_layers: 1
+    mlp_ratio: 4

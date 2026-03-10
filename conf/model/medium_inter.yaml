@@ -1,6 +1,6 @@
 # @package _global_.model
-name: medium
-batch_size: 2
+name: medium_inter
+batch_size: 1
 
 stride: [2, 2]
 enc_depths: [2, 2, 2]
@@ -13,4 +13,13 @@ dec_channels_rest: [200]
 dec_num_head: [4, 8]
 dec_patch_size: [1024, 1024]
 enable_flash: true
-enable_skip: false
+enable_skip: true              # residual from input logits to decoder output (pre-refinement)
+
+refinement:
+  d_head: 16
+
+  spatial:
+    num_layers: 1
+    mlp_ratio: 2
+    enable_flash: true
+    random_order: true         # randomise serialisation curve each step to prevent memorisation

@@ -145,7 +145,36 @@ def build_loss(cfg_loss, device):
 def build_model_from_cfg(cfg: DictConfig, num_channels: int) -> PointTransformerV3:
     m = OmegaConf.to_container(cfg.model, resolve=True)
     class_subset = cfg.class_subset
-    dec_channels = [class_subset] + list(m.get("dec_channels_rest", []))
+    r = m.get("refinement", {})
+
+    # embedding_dim: from refinement block, then top-level fallback, then 1
+    embedding_dim = r.get("embedding_dim", m.get("embedding_dim", 1))
+    dec_channels = [class_subset * embedding_dim] + list(m.get("dec_channels_rest", []))
+
+    # Validate decoder channel shape: non-decreasing from output to encoder,
+    # with constant runs only permitted at the embed channel count.
+    embed_ch = class_subset * embedding_dim
+    dec_ch_full = dec_channels + [m["enc_channels"][-1]]
+    for i in range(len(dec_ch_full) - 1):
+        a, b = dec_ch_full[i], dec_ch_full[i + 1]
+        assert a <= b, (
+            f"Decoder uprojection at stage {i}: {a} → {b}. "
+            f"dec_channels must be non-decreasing from output ({embed_ch}) to encoder "
+            f"({m['enc_channels'][-1]})."
+        )
+        assert a < b or a == embed_ch, (
+            f"Constant decoder channels at stage {i} ({a}) above embed size ({embed_ch}). "
+            f"Channels must strictly increase above the embed size — "
+            f"use distinct values in dec_channels_rest."
+        )
+
+    # Validate each dec_channels[i] is divisible by dec_num_head[i]
+    dec_num_head = m["dec_num_head"]
+    for i, (ch, nh) in enumerate(zip(dec_channels, dec_num_head)):
+        assert ch % nh == 0, (
+            f"dec_channels[{i}]={ch} not divisible by dec_num_head[{i}]={nh}. "
+            f"Choose dec_channels_rest values divisible by their corresponding dec_num_head."
+        )
 
     kwargs = dict(
         in_channels=num_channels,
@@ -161,9 +190,59 @@ def build_model_from_cfg(cfg: DictConfig, num_channels: int) -> PointTransformer
         dec_patch_size=m["dec_patch_size"],
         enable_flash=m.get("enable_flash", True),
         enable_skip=m.get("enable_skip", False),
+        # input_skip in refinement block maps to skip_to_output; top-level fallback for compat
+        skip_to_output=r.get("input_skip", m.get("skip_to_output", False)),
     )
     if "mlp_ratio" in m:
         kwargs["mlp_ratio"] = m["mlp_ratio"]
+
+    # --- Bottleneck class aggregation ---
+    if "bottleneck" in r:
+        enc_last = m["enc_channels"][-1]
+        assert enc_last % class_subset == 0, (
+            f"refinement.bottleneck requires enc_channels[-1] ({enc_last}) "
+            f"to be divisible by class_subset ({class_subset}). "
+            f"Set enc_channels[-1] = class_subset * D (e.g. {class_subset * 8} for D=8)."
+        )
+        kwargs["class_aggregator"] = r["bottleneck"]
+
+    # --- Fine-resolution refinement (spatial and/or class) ---
+    sp = r.get("spatial") or {}
+    cl = r.get("class") or {}
+    spatial_layers = sp.get("num_layers", 0) if sp else 0
+    class_layers   = cl.get("num_layers", 0) if cl else 0
+    d_head = r.get("d_head", 16)
+
+    if spatial_layers > 0 or class_layers > 0:
+        kwargs["fine_refinement"] = dict(
+            d_head=d_head,
+            embedding_dim=embedding_dim,
+            spatial_layers=spatial_layers,
+            class_layers=class_layers,
+            num_heads=r.get("num_heads", 1),
+            spatial_mlp_ratio=sp.get("mlp_ratio", 2),
+            class_mlp_ratio=cl.get("mlp_ratio", 4),
+            patch_size=sp.get("patch_size", m["dec_patch_size"][0]),
+            enable_flash=sp.get("enable_flash", m.get("enable_flash", True)),
+            random_order=sp.get("random_order", False),
+        )
+    elif "neighbor_transformer" in m:
+        # Backward compatibility: old neighbor_transformer key → fine_refinement with spatial only
+        nt = m["neighbor_transformer"]
+        _embedding_dim = dec_channels[0] // class_subset
+        kwargs["fine_refinement"] = dict(
+            d_head=nt.get("d_head", 16),
+            embedding_dim=_embedding_dim,
+            spatial_layers=nt.get("num_layers", 1),
+            class_layers=0,
+            num_heads=nt.get("num_heads", 1),
+            spatial_mlp_ratio=nt.get("mlp_ratio", 2),
+            class_mlp_ratio=4,
+            patch_size=nt.get("patch_size", m["dec_patch_size"][0]),
+            enable_flash=nt.get("enable_flash", m.get("enable_flash", True)),
+            random_order=False,
+        )
+
     return PointTransformerV3(**kwargs)
 
 
@@ -252,7 +331,7 @@ def main(cfg: DictConfig):
     N_EPOCHS = cfg.training.N_EPOCHS
     optimizer = torch.optim.AdamW(
         model.parameters(),
-        lr=cfg.training.lr,
+        lr=cfg.training.lr*batch_size,
         weight_decay=cfg.optimizer.weight_decay,
     )
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=N_EPOCHS)
@@ -261,13 +340,34 @@ def main(cfg: DictConfig):
     epoch = 0
     global_step = 0
     wandb_run_id = None
+    loss_window_init      = []
+    pred_mIoU_window_init = []
+    base_mIoU_window_init = []
+    pred_acc_window_init  = []
+    base_acc_window_init  = []
     load = cfg.training.load_chkpt or cfg.training.chkpt_newest
     chkpt_path = None
     if cfg.training.chkpt_newest:
-        chkpt_path = get_newest(checkpoint_dir)
-    if load and not (cfg.training.chkpt_newest and chkpt_path is None):
-        if not cfg.training.chkpt_newest:
-            chkpt_path = cfg.training.chkpt_path
+        chkpt_path, wandb_run_id = get_newest(checkpoint_dir)
+    elif cfg.training.load_chkpt:
+        chkpt_path = cfg.training.chkpt_path
+
+    # Validate the wandb run on rank 0 and broadcast the result to all ranks.
+    # If the run no longer exists on wandb (e.g. was deleted), start from scratch.
+    run_is_valid = [chkpt_path is None or wandb_run_id is None]
+    if is_main_process and wandb_run_id is not None:
+        try:
+            wandb.Api().run(f"{cfg.training.wandb_project}/{wandb_run_id}")
+            run_is_valid[0] = True
+        except Exception:
+            print(f"wandb run {wandb_run_id} not found on server, starting from scratch")
+            run_is_valid[0] = False
+    dist.broadcast_object_list(run_is_valid, src=0)
+    if not run_is_valid[0]:
+        chkpt_path = None
+        wandb_run_id = None
+
+    if chkpt_path is not None:
         d: dict = torch.load(chkpt_path, map_location=device)
         objects = {"model": model, "optimizer": optimizer, "scheduler": scheduler}
         for key, obj in objects.items():
@@ -277,7 +377,11 @@ def main(cfg: DictConfig):
         epoch = d.get("epoch", 0)
         N_EPOCHS = d.get("N_EPOCHS", N_EPOCHS)
         global_step = d.get("global_step", 0)
-        wandb_run_id = d.get("wandb_run_id", None)
+        loss_window_init       = list(d.get("loss_window", []))
+        pred_mIoU_window_init  = list(d.get("pred_mIoU_window", []))
+        base_mIoU_window_init  = list(d.get("base_mIoU_window", []))
+        pred_acc_window_init   = list(d.get("pred_acc_window", []))
+        base_acc_window_init   = list(d.get("base_acc_window", []))
         for state in optimizer.state.values():
             for k, v in state.items():
                 if torch.is_tensor(v):
@@ -317,6 +421,11 @@ def main(cfg: DictConfig):
         wandb_tags=overrides,
         wandb_full_cfg=full_cfg,
         wandb_dir=cfg.paths.wandb_dir,
+        loss_window_init=loss_window_init,
+        pred_mIoU_window_init=pred_mIoU_window_init,
+        base_mIoU_window_init=base_mIoU_window_init,
+        pred_acc_window_init=pred_acc_window_init,
+        base_acc_window_init=base_acc_window_init,
     )
 
     if cfg.training.validate_only:
@@ -361,11 +470,11 @@ def train(train_dataloader: DataLoader, train_sampler: DistributedSampler, val_d
 
     epoch_train_iou = IoUMetric(num_classes, class_subset, excluded_classes)
     epoch_base_iou = IoUMetric(num_classes, class_subset, excluded_classes)
-    loss_window = deque(maxlen=500)
-    pred_mIoU_window = deque(maxlen=500)
-    base_mIoU_window = deque(maxlen=500)
-    pred_acc_window = deque(maxlen=500)
-    base_acc_window = deque(maxlen=500)
+    loss_window      = deque(config.get("loss_window_init", []),      maxlen=500)
+    pred_mIoU_window = deque(config.get("pred_mIoU_window_init", []), maxlen=500)
+    base_mIoU_window = deque(config.get("base_mIoU_window_init", []), maxlen=500)
+    pred_acc_window  = deque(config.get("pred_acc_window_init", []),  maxlen=500)
+    base_acc_window  = deque(config.get("base_acc_window_init", []),  maxlen=500)
 
     if is_main_process:
         log_dir.mkdir(parents=True, exist_ok=True)
@@ -520,17 +629,22 @@ def train(train_dataloader: DataLoader, train_sampler: DistributedSampler, val_d
                         best_val_loss = val_loss
                         save_checkpoint(
                             model, optimizer, scheduler, epoch, global_step, val_loss,
-                            f"{checkpoint_dir}/best.pt",
-                            wandb_run_id=wandb_run_id,
+                            f"{checkpoint_dir}/{wandb_run_id}/best.pt",
+                            windows={"loss_window": loss_window, "pred_mIoU_window": pred_mIoU_window,
+                                     "base_mIoU_window": base_mIoU_window, "pred_acc_window": pred_acc_window,
+                                     "base_acc_window": base_acc_window},
                         )
                         checkpoint_saved = True
                         postfix_dict.update({"ckpt": f"saved @ {global_step}"})
 
             if is_main_process and global_step % ckpt_every == 0 and global_step > 0 and not checkpoint_saved:
-                ckpt_path = f"{checkpoint_dir}/step_{global_step}.pt"
+                ckpt_path = f"{checkpoint_dir}/{wandb_run_id}/step_{global_step}.pt"
                 save_checkpoint(
                     model, optimizer, scheduler, epoch, global_step, val_loss=None,
-                    path=ckpt_path, wandb_run_id=wandb_run_id,
+                    path=ckpt_path,
+                    windows={"loss_window": loss_window, "pred_mIoU_window": pred_mIoU_window,
+                             "base_mIoU_window": base_mIoU_window, "pred_acc_window": pred_acc_window,
+                             "base_acc_window": base_acc_window},
                 )
                 postfix_dict.update({"ckpt": f"saved @ {global_step}"})
 
@@ -562,14 +676,16 @@ def train(train_dataloader: DataLoader, train_sampler: DistributedSampler, val_d
             if is_main_process:
                 wandb.log({"train/lr": scheduler.get_last_lr()[0]}, step=global_step)
                 pbar.set_postfix(postfix_dict)
-            global_step += 1
-        if epoch <= last_scheduler_step:
-            scheduler.step()
+            global_step += B
+        scheduler.step()
         if is_main_process:
-            ckpt_path = f"{checkpoint_dir}/step_{global_step}_epoch_{epoch}.pt"
+            ckpt_path = f"{checkpoint_dir}/{wandb_run_id}/step_{global_step}_epoch_{epoch}.pt"
             save_checkpoint(
                 model, optimizer, scheduler, epoch + 1, global_step,
-                val_loss=None, path=ckpt_path, wandb_run_id=wandb_run_id,
+                val_loss=None, path=ckpt_path,
+                windows={"loss_window": loss_window, "pred_mIoU_window": pred_mIoU_window,
+                         "base_mIoU_window": base_mIoU_window, "pred_acc_window": pred_acc_window,
+                         "base_acc_window": base_acc_window},
             )
         gc.collect()
         torch.cuda.empty_cache()
@@ -696,7 +812,7 @@ def validate(model, val_loader, device, loss_fn, global_step=None, num_classes=1
     return val_loss, val_miou
 
 
-def save_checkpoint(model, optimizer, scheduler, epoch, global_step, val_loss, path, wandb_run_id=None):
+def save_checkpoint(model, optimizer, scheduler, epoch, global_step, val_loss, path, windows=None):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     checkpoint = {
         "model_state": model.state_dict(),
@@ -705,8 +821,10 @@ def save_checkpoint(model, optimizer, scheduler, epoch, global_step, val_loss, p
         "epoch": epoch,
         "global_step": global_step,
         "val_loss": val_loss,
-        "wandb_run_id": wandb_run_id,
     }
+    if windows is not None:
+        for k, v in windows.items():
+            checkpoint[k] = list(v)
     torch.save(checkpoint, path)
 
 
@@ -739,14 +857,22 @@ def evaluate_stats(data, pred, batch_iou, num_classes, ignore_index, B):
 def get_newest(checkpoint_dir: str):
     folder = Path(checkpoint_dir)
     if not folder.exists():
-        return None
-    files = [f for f in folder.iterdir() if f.is_file() and f.suffix == ".pt"]
-    if not files:
-        return None
-    def step_key(f):
-        m = re.search(r"step_(\d+)", f.name)
-        return int(m.group(1)) if m else -1
-    return max(files, key=step_key)
+        return None, None
+    best_file, best_run_id = None, None
+    best_step = -1
+    for subdir in folder.iterdir():
+        if not subdir.is_dir():
+            continue
+        for f in subdir.iterdir():
+            if not f.is_file() or f.suffix != ".pt":
+                continue
+            m = re.search(r"step_(\d+)", f.name)
+            step = int(m.group(1)) if m else -1
+            if step > best_step:
+                best_step = step
+                best_file = f
+                best_run_id = subdir.name
+    return best_file, best_run_id
 
 
 def setup_ddp():
