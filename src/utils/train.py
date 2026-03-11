@@ -176,8 +176,11 @@ def build_model_from_cfg(cfg: DictConfig, num_channels: int) -> PointTransformer
             f"Choose dec_channels_rest values divisible by their corresponding dec_num_head."
         )
 
+    logits_only = m.get("logits_only", False)
+    in_channels = class_subset if logits_only else num_channels
+
     kwargs = dict(
-        in_channels=num_channels,
+        in_channels=in_channels,
         num_classes=class_subset,
         stride=m["stride"],
         enc_depths=m["enc_depths"],
@@ -225,6 +228,7 @@ def build_model_from_cfg(cfg: DictConfig, num_channels: int) -> PointTransformer
             patch_size=sp.get("patch_size", m["dec_patch_size"][0]),
             enable_flash=sp.get("enable_flash", m.get("enable_flash", True)),
             random_order=sp.get("random_order", False),
+            spatial_class_chunk=sp.get("class_chunk", 0),
         )
     elif "neighbor_transformer" in m:
         # Backward compatibility: old neighbor_transformer key → fine_refinement with spatial only
@@ -649,13 +653,13 @@ def train(train_dataloader: DataLoader, train_sampler: DistributedSampler, val_d
                 postfix_dict.update({"ckpt": f"saved @ {global_step}"})
 
             if eval_stats:
-                pred_mIoU_window.append(epoch_train_iou.compute())
+                pred_mIoU_window.append(batch_train_iou.compute())
                 epoch_train_mIoU_val = sum(pred_mIoU_window) / len(pred_mIoU_window)
-                base_mIoU_window.append(epoch_base_iou.compute())
+                base_mIoU_window.append(batch_base_iou.compute())
                 epoch_base_mIoU_val = sum(base_mIoU_window) / len(base_mIoU_window)
-                pred_acc_window.append(epoch_train_iou.compute_acc())
+                pred_acc_window.append(batch_train_iou.compute_acc())
                 epoch_train_acc_val = sum(pred_acc_window) / len(pred_acc_window)
-                base_acc_window.append(epoch_base_iou.compute_acc())
+                base_acc_window.append(batch_base_iou.compute_acc())
                 epoch_base_acc_val = sum(base_acc_window) / len(base_acc_window)
 
                 if epoch_base_mIoU_val > 0:

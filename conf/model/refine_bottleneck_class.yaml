@@ -3,7 +3,7 @@
 # Bottleneck: class co-occurrence at coarse scale; decoder propagates to fine scale.
 # Fine class: additional per-point class refinement on the decoder's actual predictions.
 name: refine_bottleneck_class
-batch_size: 2
+batch_size: 1
 
 stride: [2, 2]
 enc_depths: [2, 2, 2]

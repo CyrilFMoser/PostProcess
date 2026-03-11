@@ -3,7 +3,7 @@
 # Spatial: each class independently aggregates from nearby points (random order to prevent memorisation).
 # Class: at each point, C class tokens attend to each other to capture co-occurrence patterns.
 name: refine_spatial_class
-batch_size: 2
+batch_size: 1
 
 stride: [2, 2]
 enc_depths: [2, 2, 2]
@@ -27,6 +27,7 @@ refinement:
     mlp_ratio: 2
     enable_flash: true
     random_order: true
+    class_chunk: 13      # process 13 of 52 classes per pass; 4x less peak memory
 
   class:
     num_layers: 1

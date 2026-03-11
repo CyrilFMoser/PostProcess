@@ -3,7 +3,7 @@
 # Learns inter-class co-occurrence (ceiling↔floor, wall↔door) at each point independently.
 # Generalises better than spatial agg: class relationships are semantic facts, not scene-specific.
 name: refine_class
-batch_size: 2
+batch_size: 1
 
 stride: [2, 2]
 enc_depths: [2, 2, 2]

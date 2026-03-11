@@ -924,72 +924,119 @@ class _SharedSerializedAttention(SerializedAttention):
 
 
 class FineRefinementTransformer(PointModule):
-    """Post-decoder refinement combining optional spatial and class aggregation.
+    """Post-decoder refinement module combining optional spatial and class aggregation.
 
-    Inspired by CAT-Seg's two-stage cost aggregation, this module refines
-    per-class predictions with:
+    Inspired by CAT-Seg's two-stage cost aggregation. Applied after the PTv3 decoder,
+    where ``point.feat`` already holds per-class predictions of shape ``[N, C*E]``.
 
-    1. **Spatial aggregation** (optional, ``spatial_layers > 0``): each class
-       independently attends to nearby points using PTv3's serialization order
-       (virtual-batch trick, shared QKV weights).  A random order curve is
-       sampled each training step when ``random_order=True`` to prevent
-       memorization of fixed neighbor windows.
+    **Stage 1 — Spatial aggregation** (``spatial_layers > 0``):
+        Each class independently aggregates information from spatially nearby points,
+        using PTv3's serialization-based windowed attention (patch_size tokens per window).
 
-    2. **Class aggregation** (optional, ``class_layers > 0``): at each point,
-       the C class tokens attend to each other (standard MHA, shared weights),
-       capturing inter-class co-occurrence and exclusion patterns that
-       generalize across scenes.
+        Virtual-batch trick: C classes are stacked as C independent "virtual scenes",
+        giving a flat ``[C*N, D]`` token sequence. Class c occupies rows ``[c*N, (c+1)*N)``.
+        All C copies share the same QKV weights (``_SharedSerializedAttention``), so the
+        spatial reasoning kernel is learned once and applied identically to every class.
 
-    Both stages share the same ``d_head``-dimensional feature space.
-    All output projections are zero-initialised → module is identity at init.
+        ``random_order=True`` samples a different serialization curve (Z / Z-trans /
+        Hilbert / Hilbert-trans) each training step, preventing memorization of fixed
+        neighbor windows. Inference always uses curve 0.
+
+        ``spatial_class_chunk=K`` processes K classes per attention call instead of all C
+        at once, reducing peak virtual-batch memory from C*N to K*N tokens at the cost of
+        ceil(C/K) sequential attention passes. Set K=0 (default) to disable chunking.
+
+    **Stage 2 — Class aggregation** (``class_layers > 0``):
+        At each point independently, the C class tokens attend to each other via standard
+        MHA (N as batch dimension, C as sequence length). This captures inter-class
+        co-occurrence and mutual-exclusion patterns (e.g. "wall implies floor nearby")
+        that generalize across scenes, unlike spatial patterns which are scene-specific.
+
+    **Embedding**:
+        Input ``[N, C*E]`` is first projected to ``[N, C, D]`` via a shared
+        ``Linear(E, D)`` applied to each class slot independently.
+        - ``E=1`` (scalar logits): each class logit is lifted to a D-dim vector.
+        - ``E>1`` (rich decoder embeddings): each E-dim class embedding is upscaled to D.
+
+    **Output**:
+        ``Linear(D, 1)`` collapses the D-dim representation back to a scalar delta logit
+        per class. Zero-initialized → output is 0 at init, so ``point.feat`` is unchanged
+        at the start of training (identity behaviour for ``E=1`` with the residual add).
+
+    All output projections (``spatial_fc2s``, ``class_fc2s``, ``out_proj``,
+    ``class_attns[*].out_proj``) are zero-initialized → the full module is an identity
+    transformation at init, making it safe to insert into a pre-trained PTv3 checkpoint.
     """
 
     def __init__(
         self,
         num_classes: int,
+        # Latent dimension per class token. Each class is represented as a D-dim vector.
         d_head: int = 16,
+        # Input channels per class from the decoder. E=1 means scalar logits;
+        # E>1 means the decoder was configured with dec_channels[0] = C * E.
         embedding_dim: int = 1,
+        # Number of spatial transformer layers (0 = disabled).
         spatial_layers: int = 1,
+        # Number of class transformer layers (0 = disabled).
         class_layers: int = 0,
+        # Number of attention heads for both spatial and class MHA.
         num_heads: int = 1,
+        # FFN hidden-dim multiplier for spatial layers: hidden = D * spatial_mlp_ratio.
         spatial_mlp_ratio: int = 2,
+        # FFN hidden-dim multiplier for class layers: hidden = D * class_mlp_ratio.
         class_mlp_ratio: int = 4,
+        # Serialized attention window size for the spatial stage (tokens per patch).
         patch_size: int = 1024,
         enable_flash: bool = True,
+        # If True, sample a random serialization curve each training step.
         random_order: bool = False,
+        # Process this many classes per spatial attention call (0 = all C at once).
+        # Reduces peak memory from C*N to K*N virtual tokens at the cost of ceil(C/K) passes.
+        spatial_class_chunk: int = 0,
     ):
         super().__init__()
         assert spatial_layers > 0 or class_layers > 0, (
             "FineRefinementTransformer: at least one of spatial_layers or class_layers must be > 0"
         )
         C, D = num_classes, d_head
-        self.num_classes = C
-        self.d_head = D
-        self.embedding_dim = embedding_dim
+        self.num_classes = C        # C: number of classes
+        self.d_head = D             # D: latent dimension per class token
+        self.embedding_dim = embedding_dim  # E: decoder channels per class
         self.random_order = random_order
+        self.spatial_class_chunk = spatial_class_chunk
 
-        # Shared embed: Linear(embedding_dim, D) — always used
-        # embedding_dim=1: scalar logit lifted to D-dim; >1: rich decoder embedding upscaled
+        # Embed: Linear(E, D) applied independently to each class slot.
+        # Maps [N, C, E] → [N, C, D].  Shared weights across all C classes.
         self.embed = nn.Linear(embedding_dim, D)
         self.act = nn.GELU()
 
-        # --- Spatial aggregation blocks (virtual batch over C*N tokens) ---
+        # --- Spatial aggregation blocks ---
+        # Pre-norm transformer layers operating on the [C*N, D] virtual batch.
+        # Each layer: LayerNorm → SerializedAttention → residual → LayerNorm → FFN → residual.
+        # spatial_fc2 is zero-initialized so each layer is identity at init.
         self.spatial_norms1 = nn.ModuleList([nn.LayerNorm(D) for _ in range(spatial_layers)])
         self.spatial_attns  = nn.ModuleList([
+            # _SharedSerializedAttention: PTv3 windowed attention reading from ccat_* metadata.
+            # QKV weights are shared; all C class copies use the same spatial kernel.
             _SharedSerializedAttention(D, num_heads, patch_size, order_index=0, enable_flash=enable_flash)
             for _ in range(spatial_layers)
         ])
         self.spatial_norms2 = nn.ModuleList([nn.LayerNorm(D) for _ in range(spatial_layers)])
-        sp_hidden = int(D * spatial_mlp_ratio)
+        sp_hidden = int(D * spatial_mlp_ratio)  # FFN hidden dim for spatial stage
         self.spatial_fc1s = nn.ModuleList([nn.Linear(D, sp_hidden) for _ in range(spatial_layers)])
         self.spatial_fc2s = nn.ModuleList([nn.Linear(sp_hidden, D) for _ in range(spatial_layers)])
         for fc2 in self.spatial_fc2s:
             nn.init.zeros_(fc2.weight)
             nn.init.zeros_(fc2.bias)
 
-        # --- Class aggregation blocks (standard MHA over C tokens per point) ---
+        # --- Class aggregation blocks ---
+        # Pre-norm transformer layers where N is the batch dimension and C is the sequence.
+        # At each point, all C class tokens attend to each other (full C×C attention).
+        # class_attns[*].out_proj and class_fc2s are zero-initialized → identity at init.
         self.class_norms1 = nn.ModuleList([nn.LayerNorm(D) for _ in range(class_layers)])
         self.class_attns  = nn.ModuleList([
+            # Standard MHA: input [N, C, D], batch_first=True → output [N, C, D].
             nn.MultiheadAttention(D, num_heads, bias=True, batch_first=True)
             for _ in range(class_layers)
         ])
@@ -997,137 +1044,227 @@ class FineRefinementTransformer(PointModule):
             nn.init.zeros_(attn.out_proj.weight)
             nn.init.zeros_(attn.out_proj.bias)
         self.class_norms2 = nn.ModuleList([nn.LayerNorm(D) for _ in range(class_layers)])
-        cl_hidden = int(D * class_mlp_ratio)
+        cl_hidden = int(D * class_mlp_ratio)  # FFN hidden dim for class stage
         self.class_fc1s = nn.ModuleList([nn.Linear(D, cl_hidden) for _ in range(class_layers)])
         self.class_fc2s = nn.ModuleList([nn.Linear(cl_hidden, D) for _ in range(class_layers)])
         for fc2 in self.class_fc2s:
             nn.init.zeros_(fc2.weight)
             nn.init.zeros_(fc2.bias)
 
-        # Output projection: D → 1 scalar logit per class; zero-init → identity at init
+        # Output projection: [N, C, D] → [N, C, 1] → squeeze → [N, C] delta logits.
+        # Zero-initialized: module outputs 0 at init → point.feat unchanged (identity).
         self.out_proj = nn.Linear(D, 1)
         nn.init.zeros_(self.out_proj.weight)
         nn.init.zeros_(self.out_proj.bias)
 
     def forward(self, point):
+        # point.feat: [N, C*E]
+        #   N = total voxelized points across all scenes in the batch (PTv3 flat layout)
+        #   C = num_classes, E = embedding_dim
         N, feat_C = point.feat.shape
         C, D, E = self.num_classes, self.d_head, self.embedding_dim
         assert feat_C == C * E, f"FineRefinementTransformer: expected [N, {C*E}], got [N, {feat_C}]"
 
-        # Embed → [N, C, D]
+        # --- Embed input to latent space ---
         if E == 1:
-            orig_feat = point.feat          # [N, C] saved for output residual
-            x = self.embed(orig_feat.unsqueeze(-1))   # [N, C, D]
+            orig_feat = point.feat                        # [N, C]   saved for output residual
+            x = self.embed(orig_feat.unsqueeze(-1))       # [N, C, 1] → Linear(1, D) → [N, C, D]
         else:
-            x = self.embed(point.feat.reshape(N, C, E))   # [N, C, D]
+            # Rich decoder embeddings: reshape to expose the E-dim per class, then project.
+            x = self.embed(point.feat.reshape(N, C, E))  # [N, C, E] → Linear(E, D) → [N, C, D]
 
         # --- Spatial aggregation ---
+        # Virtual-batch trick: treat each class as an independent copy of the scene.
+        # Class c occupies rows [c*N, (c+1)*N) in the flat virtual sequence.
+        # Shared QKV weights mean all classes use the same spatial attention kernel.
         if self.spatial_norms1:
-            # Pick serialization order: random during training if enabled, else 0
+            # Choose which serialization curve to use.
+            # point.serialized_order is a list of len=num_orders permutation tensors, each [N].
             if self.random_order and self.training:
+                # Sample uniformly from available curves to prevent memorizing fixed windows.
                 order_idx = torch.randint(len(point.serialized_order), (1,)).item()
             else:
-                order_idx = 0
+                order_idx = 0  # Always use curve 0 at inference for determinism.
 
-            # Build virtual batch: class c occupies rows [c*N, (c+1)*N)
-            orig_offset  = point.offset
-            bincount     = offset2bincount(orig_offset)                  # [B]
-            virt_offset  = torch.cumsum(bincount.repeat(C), dim=0)       # [B*C]
-            orig_order   = point.serialized_order[order_idx]             # [N]
-            orig_inverse = point.serialized_inverse[order_idx]           # [N]
-            virt_order   = torch.cat([orig_order   + c * N for c in range(C)])   # [C*N]
-            virt_inverse = torch.cat([orig_inverse + c * N for c in range(C)])   # [C*N]
-            point["ccat_offset"]  = virt_offset
-            point["ccat_order"]   = virt_order
-            point["ccat_inverse"] = virt_inverse
+            orig_offset  = point.offset                         # [B] cumulative point counts
+            bincount     = offset2bincount(orig_offset)         # [B] points per scene
+            orig_order   = point.serialized_order[order_idx]    # [N] permutation: sorted→orig
+            orig_inverse = point.serialized_inverse[order_idx]  # [N] permutation: orig→sorted
+
+            chunk = self.spatial_class_chunk  # K classes per attention call; 0 = all C
+            use_chunks = 0 < chunk < C
+
+            if not use_chunks:
+                # Build the full C*N virtual batch metadata once.
+                # virt_offset: [B*C] — cumulative point counts for the virtual batch.
+                #   Each actual scene is replicated C times: [scene0-c0, scene1-c0, scene0-c1, ...]
+                virt_offset  = torch.cumsum(bincount.repeat(C), dim=0)          # [B*C]
+                # virt_order: [C*N] — serialization order for the virtual batch.
+                #   Class c's points sit at virtual indices [c*N, (c+1)*N), so shift orig_order
+                #   by c*N to keep them within their class's address range.
+                virt_order   = torch.cat([orig_order   + c * N for c in range(C)])  # [C*N]
+                # virt_inverse: [C*N] — maps each virtual point back to its sorted position.
+                virt_inverse = torch.cat([orig_inverse + c * N for c in range(C)])  # [C*N]
+                # Write metadata; _SharedSerializedAttention reads from ccat_* keys.
+                # Cache is valid for all spatial layers (same N and C throughout).
+                point["ccat_offset"]  = virt_offset
+                point["ccat_order"]   = virt_order
+                point["ccat_inverse"] = virt_inverse
 
             for norm1, attn, norm2, fc1, fc2 in zip(
                 self.spatial_norms1, self.spatial_attns,
                 self.spatial_norms2, self.spatial_fc1s, self.spatial_fc2s,
             ):
+                # Pre-norm attention sublayer
                 shortcut = x
-                x_normed = norm1(x)                                            # [N, C, D]
-                point.feat = x_normed.permute(1, 0, 2).reshape(C * N, D)      # [C*N, D]
-                point = attn(point)
-                x = shortcut + point.feat.reshape(C, N, D).permute(1, 0, 2)   # [N, C, D]
+                x_normed = norm1(x)   # [N, C, D]
 
+                if not use_chunks:
+                    # Flatten to [C*N, D]: class c occupies rows [c*N, (c+1)*N).
+                    # permute(1,0,2): [C, N, D]; reshape: [C*N, D].
+                    point.feat = x_normed.permute(1, 0, 2).reshape(C * N, D)  # [C*N, D]
+                    point = attn(point)   # serialized attention → point.feat: [C*N, D]
+                    # Unflatten: reshape [C*N, D] → [C, N, D]; permute → [N, C, D].
+                    x = shortcut + point.feat.reshape(C, N, D).permute(1, 0, 2)  # [N, C, D]
+                else:
+                    # Chunked path: process K classes at a time to cap peak memory at K*N tokens.
+                    attn_out = torch.empty_like(x_normed)  # [N, C, D] output buffer
+                    for c_start in range(0, C, chunk):
+                        c_end = min(c_start + chunk, C)
+                        K = c_end - c_start  # actual chunk size (last chunk may be smaller)
+                        x_chunk = x_normed[:, c_start:c_end, :]           # [N, K, D]
+                        # Build K-class virtual batch metadata (same logic as full path).
+                        virt_offset_k  = torch.cumsum(bincount.repeat(K), dim=0)           # [B*K]
+                        virt_order_k   = torch.cat([orig_order   + k * N for k in range(K)])  # [K*N]
+                        virt_inverse_k = torch.cat([orig_inverse + k * N for k in range(K)])  # [K*N]
+                        # Clear cached pad/unpad/cu_seqlens from the previous chunk;
+                        # _SharedSerializedAttention caches these based on ccat_offset,
+                        # so they must be invalidated whenever the virtual batch changes.
+                        for key in ("ccat_pad", "ccat_unpad", "ccat_cu_seqlens"):
+                            if key in point.keys():
+                                del point[key]
+                        point["ccat_offset"]  = virt_offset_k
+                        point["ccat_order"]   = virt_order_k
+                        point["ccat_inverse"] = virt_inverse_k
+                        point.feat = x_chunk.permute(1, 0, 2).reshape(K * N, D)  # [K*N, D]
+                        point = attn(point)   # → point.feat: [K*N, D]
+                        attn_out[:, c_start:c_end, :] = point.feat.reshape(K, N, D).permute(1, 0, 2)
+                    x = shortcut + attn_out  # [N, C, D]
+
+                # Pre-norm FFN sublayer (shared weights, applied point-wise across N*C slots)
                 shortcut = x
-                x_normed = norm2(x)
-                x_flat = x_normed.reshape(N * C, D)
-                x = shortcut + fc2(self.act(fc1(x_flat))).reshape(N, C, D)
+                x_normed = norm2(x)                                              # [N, C, D]
+                x_flat = x_normed.reshape(N * C, D)                             # [N*C, D]
+                x = shortcut + fc2(self.act(fc1(x_flat))).reshape(N, C, D)      # [N, C, D]
 
         # --- Class aggregation ---
+        # Standard MHA with N as the batch dimension and C as the sequence dimension.
+        # Each point independently mixes its C class tokens → captures which classes
+        # co-occur or exclude each other at any given spatial location.
         for norm1, attn, norm2, fc1, fc2 in zip(
             self.class_norms1, self.class_attns,
             self.class_norms2, self.class_fc1s, self.class_fc2s,
         ):
+            # Pre-norm attention sublayer: full C×C self-attention per point
             shortcut = x
             x_normed = norm1(x)                                    # [N, C, D]
             attn_out, _ = attn(x_normed, x_normed, x_normed)      # [N, C, D]
-            x = shortcut + attn_out
+            x = shortcut + attn_out                                # [N, C, D]
 
+            # Pre-norm FFN sublayer (weights shared across N and C)
             shortcut = x
-            x_normed = norm2(x)
-            x_flat = x_normed.reshape(N * C, D)
-            x = shortcut + fc2(self.act(fc1(x_flat))).reshape(N, C, D)
+            x_normed = norm2(x)                                    # [N, C, D]
+            x_flat = x_normed.reshape(N * C, D)                   # [N*C, D]
+            x = shortcut + fc2(self.act(fc1(x_flat))).reshape(N, C, D)  # [N, C, D]
 
-        # Project → scalar logits; residual over input logits when embedding_dim=1
+        # --- Output ---
+        # Project each D-dim class token to a scalar delta logit: [N, C, D] → [N, C, 1] → [N, C].
         logits = self.out_proj(x).squeeze(-1)   # [N, C]
+        # E=1: add delta logits to the original input logits (residual connection).
+        # E>1: output the full [N, C] predictions directly (no residual; decoder handles skip).
         point.feat = orig_feat + logits if E == 1 else logits
         return point
 
 
 class ClassAggregationTransformer(PointModule):
-    """Inter-class attention applied at the PTv3 encoder bottleneck.
+    """Inter-class attention inserted between the PTv3 encoder and decoder (bottleneck).
 
-    Inserted between the encoder and decoder. Requires enc_channels[-1] = num_classes * d_head
-    so the bottleneck features can be reshaped to [N_coarse, C, D] without any learned projection.
+    **Motivation**: The encoder bottleneck is the most spatially compressed stage
+    (fewest points, largest receptive field). Mixing class information here propagates
+    class co-occurrence context through all subsequent decoder skip connections,
+    making it available at every resolution during upsampling.
 
-    Applies standard multi-head self-attention over the C class tokens at each coarse point
-    independently (N_coarse as batch, C as sequence length). No positional encoding —
-    permutation invariant over class ordering, which varies per scene in PTv3.
+    **Shape constraint**: Requires ``enc_channels[-1] = num_classes * d_head`` so the
+    bottleneck features ``[N_coarse, C*D]`` can be freely reshaped to ``[N_coarse, C, D]``
+    without a learned projection. ``d_head`` is inferred at build time as
+    ``enc_channels[-1] // num_classes``.
 
-    The decoder then propagates the class-aware bottleneck features to fine scale through its
-    skip connections, making class co-occurrence information available at every decoder stage.
+    **Attention layout**: ``N_coarse`` is treated as the batch dimension and ``C`` as the
+    sequence dimension. Each coarse point independently mixes its C class-slot features
+    via full C×C self-attention. No positional encoding is added — the module is
+    permutation-invariant over class ordering, which is consistent with the class ordering
+    varying per scene (PTv3 sorts classes by spatial frequency).
 
-    Zero-initialised outputs (attn.out_proj and fc2) → module is identity at init, so it
-    cannot hurt a pre-trained PTv3 checkpoint at the start of fine-tuning.
+    **Data flow**::
+
+        [N_coarse, C*D]  →  reshape  →  [N_coarse, C, D]
+                         →  L × (MHA + FFN)
+                         →  reshape  →  [N_coarse, C*D]
+
+    The modified ``[N_coarse, C*D]`` tensor is then passed to the PTv3 decoder, which
+    upsamples it via skip connections at each decoder stage.
+
+    **Identity initialisation**: ``attn.out_proj`` and ``fc2`` weights/biases are all
+    zero-initialized → module is an exact identity at init, so inserting it into a
+    pretrained PTv3 checkpoint causes no immediate degradation.
     """
 
     def __init__(
         self,
         num_classes: int,
-        d_head: int,        # = enc_channels[-1] // num_classes; inferred at build time
+        # Latent dimension per class token = enc_channels[-1] // num_classes.
+        # Inferred at build time in build_model_from_cfg; not a free hyperparameter.
+        d_head: int,
+        # Number of attention heads for MHA. Must divide d_head evenly.
         num_heads: int = 1,
+        # Number of stacked MHA + FFN layers.
         num_layers: int = 1,
+        # FFN hidden-dim multiplier: hidden = d_head * mlp_ratio.
         mlp_ratio: int = 4,
     ):
         super().__init__()
         C, D = num_classes, d_head
-        self.num_classes = C
-        self.d_head = D
+        self.num_classes = C  # C: number of classes (sequence length for MHA)
+        self.d_head = D       # D: feature dimension per class token
 
+        # Pre-norm MHA sublayer: LayerNorm(D) → MHA(D, num_heads) → residual.
         self.norms1 = nn.ModuleList([nn.LayerNorm(D) for _ in range(num_layers)])
         self.attns = nn.ModuleList([
+            # batch_first=True: input/output shape [N_coarse, C, D].
             nn.MultiheadAttention(D, num_heads, bias=True, batch_first=True)
             for _ in range(num_layers)
         ])
-        # Zero-init attention output projection → identity at init
+        # Zero-init out_proj → attention sublayer is identity at init.
         for attn in self.attns:
             nn.init.zeros_(attn.out_proj.weight)
             nn.init.zeros_(attn.out_proj.bias)
 
+        # Pre-norm FFN sublayer: LayerNorm(D) → Linear(D, hidden) → GELU → Linear(hidden, D) → residual.
         self.norms2 = nn.ModuleList([nn.LayerNorm(D) for _ in range(num_layers)])
-        hidden = int(D * mlp_ratio)
+        hidden = int(D * mlp_ratio)  # FFN hidden dimension
         self.fc1s = nn.ModuleList([nn.Linear(D, hidden) for _ in range(num_layers)])
         self.fc2s = nn.ModuleList([nn.Linear(hidden, D) for _ in range(num_layers)])
-        # Zero-init FFN output → identity at init
+        # Zero-init fc2 → FFN sublayer is identity at init.
         for fc2 in self.fc2s:
             nn.init.zeros_(fc2.weight)
             nn.init.zeros_(fc2.bias)
         self.act = nn.GELU()
 
     def forward(self, point):
+        # point.feat: [N_coarse, C*D]
+        #   N_coarse = voxelized points at the encoder bottleneck resolution
+        #              (much smaller than the fine-resolution N after decoding)
+        #   C = num_classes, D = d_head
         N, feat_C = point.feat.shape
         C, D = self.num_classes, self.d_head
         assert feat_C == C * D, (
@@ -1135,23 +1272,26 @@ class ClassAggregationTransformer(PointModule):
             f"Set enc_channels[-1] = class_subset * D ({C} * {D} = {C * D})."
         )
 
-        x = point.feat.reshape(N, C, D)   # [N, C, D] — N is batch, C is sequence
+        # Reshape to expose C class tokens per point: [N_coarse, C*D] → [N_coarse, C, D].
+        # N_coarse acts as the MHA batch dimension; C is the sequence length.
+        x = point.feat.reshape(N, C, D)   # [N_coarse, C, D]
 
         for norm1, attn, norm2, fc1, fc2 in zip(
             self.norms1, self.attns, self.norms2, self.fc1s, self.fc2s
         ):
-            # Self-attention over C class tokens (pre-norm)
+            # Pre-norm self-attention: each coarse point mixes all C class tokens.
             shortcut = x
-            x_normed = norm1(x)                                    # [N, C, D]
-            attn_out, _ = attn(x_normed, x_normed, x_normed)      # [N, C, D]
-            x = shortcut + attn_out
+            x_normed = norm1(x)                                    # [N_coarse, C, D]
+            attn_out, _ = attn(x_normed, x_normed, x_normed)      # [N_coarse, C, D]
+            x = shortcut + attn_out                                # [N_coarse, C, D]
 
-            # FFN (pre-norm, shared weights across all points)
+            # Pre-norm FFN: Linear(D→hidden)→GELU→Linear(hidden→D), shared across N_coarse and C.
             shortcut = x
-            x_normed = norm2(x)                                    # [N, C, D]
-            x_flat = x_normed.reshape(N * C, D)
-            x = shortcut + fc2(self.act(fc1(x_flat))).reshape(N, C, D)
+            x_normed = norm2(x)                                    # [N_coarse, C, D]
+            x_flat = x_normed.reshape(N * C, D)                   # [N_coarse*C, D]
+            x = shortcut + fc2(self.act(fc1(x_flat))).reshape(N, C, D)  # [N_coarse, C, D]
 
+        # Flatten back: [N_coarse, C, D] → [N_coarse, C*D] for the PTv3 decoder.
         point.feat = x.reshape(N, C * D)
         return point
 
@@ -1203,6 +1343,7 @@ class PointTransformerV3(PointModule):
         self.enable_skip = enable_skip
         self.skip_to_output = skip_to_output
         self.num_classes = num_classes
+        self.feat_channels = in_channels
         assert not (self.enable_skip and dec_channels[0] != self.num_classes), (
             "enable_skip requires dec_channels[0] == num_classes. "
             "Disable enable_skip when using embedding_dim > 1."
@@ -1386,6 +1527,7 @@ class PointTransformerV3(PointModule):
         2. "grid_coord": discrete coordinate after grid sampling (voxelization) or "coord" + "grid_size"
         3. "offset" or "batch": https://github.com/Pointcept/Pointcept?tab=readme-ov-file#offset
         """
+        data_dict["feat"] = data_dict["feat"][:,:self.feat_channels]
         point = Point(data_dict)
         point.serialization(order=self.order, shuffle_orders=self.shuffle_orders)
         point.sparsify()

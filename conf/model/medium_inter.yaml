@@ -23,3 +23,4 @@ refinement:
     mlp_ratio: 2
     enable_flash: true
     random_order: true         # randomise serialisation curve each step to prevent memorisation
+    class_chunk: 13            # process 13 of 52 classes per pass; 4x less peak memory
